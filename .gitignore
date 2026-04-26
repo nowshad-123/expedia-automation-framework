@@ -1,8 +1,10 @@
 target/
+test-output/
 *.class
 *.log
 logs/
-reports/screenshots/
+reports/
+screenshots/
 .idea/
 *.iml
 .DS_Store
