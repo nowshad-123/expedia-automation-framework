@@ -35,14 +35,6 @@ public class DriverFactory {
     WebDriverManager.chromedriver().setup();
     ChromeOptions options = new ChromeOptions();
 
-    // ── Anti-bot detection arguments ──────────────────────────
-    options.addArguments("--disable-blink-features=AutomationControlled");
-    options.addArguments("--disable-notifications");
-    options.addArguments("--disable-popup-blocking");
-    options.addArguments("--start-maximized");
-    options.addArguments("--remote-allow-origins=*");
-    options.addArguments("--no-sandbox");
-    options.addArguments("--disable-dev-shm-usage");
     options.addArguments("--disable-infobars");
     options.addArguments("--lang=en-IN");
 
@@ -53,28 +45,9 @@ public class DriverFactory {
         "Chrome/124.0.0.0 Safari/537.36"
     );
 
-    // Remove automation flags from Chrome preferences
-    options.setExperimentalOption("excludeSwitches",
-        java.util.List.of("enable-automation"));
-    options.setExperimentalOption("useAutomationExtension", false);
-
-    if (headless) {
-        options.addArguments("--headless=new");
-        options.addArguments("--window-size=1920,1080");
-    }
-
     ChromeDriver driver = new ChromeDriver(options);
 
-    // Override navigator.webdriver to undefined via CDP
-    driver.executeCdpCommand(
-        "Page.addScriptToEvaluateOnNewDocument",
-        java.util.Map.of(
-            "source",
-            "Object.defineProperty(navigator, 'webdriver', {get: () => undefined})"
-        )
-    );
-
-    logger.info("ChromeDriver created with anti-bot configuration");
+    logger.info("ChromeDriver created successfully");
     return driver;
 }
 
