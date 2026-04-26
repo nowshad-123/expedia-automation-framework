@@ -32,22 +32,28 @@ public class DriverFactory {
     }
 
     private static WebDriver createChromeDriver(boolean headless) {
+
     WebDriverManager.chromedriver().setup();
+
     ChromeOptions options = new ChromeOptions();
 
-    options.addArguments("--disable-infobars");
-    options.addArguments("--lang=en-IN");
+    if (headless) {
+        options.addArguments("--headless=new");
+    }
 
-    // Mimic a real browser user-agent
-    options.addArguments(
-        "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) " +
-        "AppleWebKit/537.36 (KHTML, like Gecko) " +
-        "Chrome/124.0.0.0 Safari/537.36"
-    );
+    options.addArguments("--start-maximized");
+    options.addArguments("--disable-blink-features=AutomationControlled");
+    options.addArguments("--disable-infobars");
+    options.addArguments("--disable-notifications");
+    options.addArguments("--disable-gpu");
+    options.addArguments("--no-sandbox");
+    options.addArguments("--disable-quic");
+    
 
     ChromeDriver driver = new ChromeDriver(options);
 
     logger.info("ChromeDriver created successfully");
+
     return driver;
 }
 
