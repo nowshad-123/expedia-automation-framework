@@ -22,6 +22,7 @@
 		<webdrivermanager.version>6.3.4</webdrivermanager.version>
 		<jackson.version>2.16.1</jackson.version>
 		<apache.poi.version>5.2.5</apache.poi.version>
+		<log4j.version>2.25.4</log4j.version>
 	</properties>
 
 	<dependencies>
@@ -94,6 +95,14 @@
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi-ooxml</artifactId>
 			<version>${apache.poi.version}</version>
+		</dependency>
+
+		<!-- SLF4J bridge for WebDriverManager logging -->
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-slf4j2-impl</artifactId>
+			<version>${log4j.version}</version>
+			<scope>compile</scope>
 		</dependency>
 	</dependencies>
 
