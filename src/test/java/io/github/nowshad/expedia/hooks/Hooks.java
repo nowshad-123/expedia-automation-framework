@@ -1,6 +1,5 @@
 package io.github.nowshad.expedia.hooks;
 
-import java.time.Duration;
 import java.util.concurrent.TimeoutException;
 
 import org.apache.logging.log4j.LogManager;

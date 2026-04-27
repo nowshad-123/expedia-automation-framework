@@ -59,12 +59,37 @@ public class BasePage {
 
     protected void click(By locator) {
         logger.info("Clicking element: {}", locator);
-        try {
-            waitForElement(locator, WaitStrategy.CLICKABLE).click();
-        } catch (ElementClickInterceptedException e) {
-            logger.warn("Normal click intercepted, trying JS click for: {}", locator);
-            jsClick(locator);
+        int attempts = 0;
+        while (attempts < 3) {
+            try {
+                waitForElement(locator, WaitStrategy.CLICKABLE).click();
+                return; // success — exit
+            } catch (StaleElementReferenceException e) {
+                attempts++;
+                logger.warn("Stale element on click attempt {}. " +
+                            "Retrying: {}", attempts, locator);
+            } catch (ElementClickInterceptedException e) {
+                logger.warn("Click intercepted — trying JS click: {}",
+                            locator);
+                jsClick(locator);
+                return;
+            }
         }
+        throw new RuntimeException(
+            "Click failed after 3 attempts due to stale element: "
+            + locator);
+    }
+    
+    protected void clickMatchedCity(By locator, String city) {
+    	logger.info("Clicking the matched city: {}", locator);
+    	List<WebElement> options = waitForElements(locator);
+    	
+    	for (WebElement option : options) {
+    	    if (option.getText().contains(city)) {
+    	        option.click();
+    	        break;
+    	    }
+    	}
     }
 
     protected void jsClick(By locator) {
