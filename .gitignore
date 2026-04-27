@@ -3,6 +3,7 @@ test-output/
 reports/
 logs/
 screenshots/
+bin/
 
 .classpath
 .project
