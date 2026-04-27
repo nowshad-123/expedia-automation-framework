@@ -32,28 +32,42 @@ public class DriverFactory {
     }
 
     private static WebDriver createChromeDriver(boolean headless) {
-
     WebDriverManager.chromedriver().setup();
-
     ChromeOptions options = new ChromeOptions();
+
+    options.addArguments("--disable-blink-features=AutomationControlled");
+    options.addArguments("--disable-notifications");
+    options.addArguments("--disable-popup-blocking");
+    options.addArguments("--start-maximized");
+    options.addArguments("--remote-allow-origins=*");
+    options.addArguments("--no-sandbox");
+    options.addArguments("--disable-dev-shm-usage");
+    options.addArguments("--disable-infobars");
+    options.addArguments("--disable-extensions");
+    options.addArguments("--ignore-certificate-errors");
+
+    options.setExperimentalOption("excludeSwitches",
+        java.util.List.of("enable-automation"));
+    options.setExperimentalOption("useAutomationExtension", false);
 
     if (headless) {
         options.addArguments("--headless=new");
+        options.addArguments("--window-size=1920,1080");
     }
-
-    options.addArguments("--start-maximized");
-    options.addArguments("--disable-blink-features=AutomationControlled");
-    options.addArguments("--disable-infobars");
-    options.addArguments("--disable-notifications");
-    options.addArguments("--disable-gpu");
-    options.addArguments("--no-sandbox");
-    options.addArguments("--disable-quic");
-    
 
     ChromeDriver driver = new ChromeDriver(options);
 
-    logger.info("ChromeDriver created successfully");
+    // Remove webdriver flag
+    driver.executeCdpCommand(
+        "Page.addScriptToEvaluateOnNewDocument",
+        java.util.Map.of(
+            "source",
+            "Object.defineProperty(navigator, 'webdriver', " +
+            "{get: () => undefined})"
+        )
+    );
 
+    logger.info("ChromeDriver created successfully");
     return driver;
 }
 
@@ -68,10 +82,30 @@ public class DriverFactory {
     private static WebDriver createEdgeDriver(boolean headless) {
         WebDriverManager.edgedriver().setup();
         EdgeOptions options = new EdgeOptions();
-        if (headless) options.addArguments("--headless=new");
+        
+     // Fix ERR_HTTP2_PROTOCOL_ERROR
+        options.addArguments("--disable-http2");
+        options.addArguments("--disable-notifications");
+        options.addArguments("--disable-popup-blocking");
+        options.addArguments("--start-maximized");
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--disable-blink-features=AutomationControlled");
+        options.setExperimentalOption("excludeSwitches",
+            java.util.List.of("enable-automation"));
+        options.setExperimentalOption("useAutomationExtension", false);
+
+        if (headless) {
+            options.addArguments("--headless=new");
+            options.addArguments("--window-size=1920,1080");
+        }
+
         logger.info("EdgeDriver created successfully");
         return new EdgeDriver(options);
+        
+        
     }
+    
 
     private DriverFactory() {}
 }
