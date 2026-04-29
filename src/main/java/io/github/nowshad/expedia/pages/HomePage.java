@@ -1,9 +1,11 @@
 package io.github.nowshad.expedia.pages;
 
-import io.github.nowshad.expedia.enums.WaitStrategy;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
+
+import io.github.nowshad.expedia.components.DatePickerComponent;
+import io.github.nowshad.expedia.enums.WaitStrategy;
 
 public class HomePage extends BasePage {
 
@@ -95,7 +97,13 @@ public class HomePage extends BasePage {
 		waitForSuggestions();
 		clickMatchedCity(Suggestions, city);
 		logger.info("Selected destination suggestion for: {}", city);
+		
+		// After destination selected, MMT auto-opens calendar
+	    // Give React a moment to render it
+	    waitForPageLoad();
+	    
 		return this;
+
 	}
 
 	/**
@@ -104,6 +112,22 @@ public class HomePage extends BasePage {
 	public HomePage clickSearch() {
 		click(searchBtn);
 		logger.info("Clicked Search button");
+		return this;
+	}
+
+	// Add to actions section
+	/**
+	 * Opens the departure date calendar and selects a date N days from today.
+	 */
+	public HomePage selectDepartureDate(int daysFromToday) {
+		logger.info("Selecting departure date: {} days from today", daysFromToday);
+
+		// Calendar auto-opens after destination city selection
+		// confirmed from manual exploration — no click needed
+		DatePickerComponent datePicker = new DatePickerComponent();
+		datePicker.selectDepartureDate(daysFromToday);
+
+		logger.info("Departure date selection complete");
 		return this;
 	}
 
