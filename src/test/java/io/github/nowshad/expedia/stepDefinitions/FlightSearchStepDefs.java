@@ -51,6 +51,14 @@ public class FlightSearchStepDefs {
     public void theUserEntersDestinationCity(String city) {
         homePage.enterDestination(city);
     }
+    
+    @And("the user selects departure date as {int} days from today")
+    public void theUserSelectsDepartureDateAsDaysFromToday(
+            int daysFromToday) {
+        logger.info("Selecting departure date: {} days from today",
+            daysFromToday);
+        homePage.selectDepartureDate(daysFromToday);
+    }
 
     @And("the user clicks on Search button")
     public void theUserClicksOnSearchButton() {

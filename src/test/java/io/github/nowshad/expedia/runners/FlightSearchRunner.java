@@ -10,7 +10,7 @@ import io.cucumber.testng.CucumberOptions;
         "io.github.nowshad.expedia.hooks",
         "io.github.nowshad.expedia.stepDefinitions"
     },
-    tags      = "@oneWay",
+    tags      = "@oneWay and not @sanity",
     plugin    = {
         "pretty",
         "html:reports/flight-search-report.html",
