@@ -21,14 +21,25 @@
 
 ### ✅ Sprint 1 — Foundation + Smoke (Day 1–8)
 
-- [x] Day 1 — Framework skeleton, ConfigReader, log4j2, Git setup
-- [x] Day 2 — DriverFactory, DriverManager (ThreadLocal), Hooks, Sanity test
-- [x] Day 3 — BasePage, WaitStrategy enum, Explicit wait strategy
-- [x] Day 4 — HomePage POM, One-way flight search, Scenario Outline
-- [ ] Day 5 — Date picker automation
-- [ ] Day 6 — Travellers selector + Search execution
-- [ ] Day 7 — Round trip search scenarios
+- [x] Day 1 — Framework skeleton, ConfigReader, log4j2
+- [x] Day 2 — DriverFactory, DriverManager, Sanity test
+- [x] Day 3 — BasePage, WaitStrategy, Explicit waits
+- [x] Day 4 — HomePage POM, One Way flight search
+- [x] Day 5 — DatePickerComponent, Dynamic date selection
+- [x] Day 6 — TravellersComponent, SearchResultsPage, Full E2E
+- [ ] Day 7 — Round Trip search + Sprint 1 completion
 - [ ] Day 8 — Sprint 1 review + smoke suite
+
+## Test Coverage
+
+| Scenario | Status |
+| --- | --- |
+| Framework sanity — page load | ✅ Passing |
+| One way search — Delhi→Mumbai | ✅ Passing |
+| One way search — Bangalore→Chennai | ✅ Passing |
+| One way search — Kolkata→Hyderabad | ✅ Passing |
+| Full E2E with date + travellers | ✅ Passing |
+
 
 ### ⏳ Sprint 2 — Results Intelligence (Day 9–16)
 ### ⏳ Sprint 3 — Stability + Negative Testing (Day 17–22)
