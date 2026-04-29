@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 
 import io.github.nowshad.expedia.components.DatePickerComponent;
+import io.github.nowshad.expedia.components.TravellersComponent;
 import io.github.nowshad.expedia.enums.WaitStrategy;
 
 public class HomePage extends BasePage {
@@ -151,5 +152,34 @@ public class HomePage extends BasePage {
 		// Wait for suggestion dropdown to appear
 		waitForElement(Suggestions, WaitStrategy.VISIBLE);
 		logger.debug("Suggestion dropdown appeared");
+	}
+	
+	
+	/**
+	 * Selects travellers with travel class.
+	 * TravellersComponent handles panel open internally.
+	 */
+	public HomePage selectTravellers(
+	        int adults,
+	        int children,
+	        int infants,
+	        TravellersComponent.TravelClass travelClass) {
+
+	    logger.info("Configuring travellers");
+	    TravellersComponent travellers =
+	        new TravellersComponent();
+	    travellers.setTravellers(
+	        adults, children, infants, travelClass);
+	    return this;
+	}
+
+	/**
+	 * Default: 1 adult, Economy class.
+	 */
+	public HomePage selectDefaultTravellers() {
+	    TravellersComponent travellers =
+	        new TravellersComponent();
+	    travellers.setDefaultTravellers();
+	    return this;
 	}
 }
