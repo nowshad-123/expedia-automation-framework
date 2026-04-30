@@ -1,16 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite name="Expedia Automation Suite" verbose="1">
+<suite name="MakeMyTrip Sprint 1 Suite" verbose="1">
 
-    <!-- <test name="Sanity Tests">
+    <test name="Sanity Tests">
         <classes>
-            <class name="io.github.nowshad.expedia.runners.SanityRunner"/>
+            <class name="io.github.nowshad.expedia
+                .runners.SanityRunner"/>
         </classes>
-    </test> -->
-    
-     <test name="Flight Search Tests">
+    </test>
+
+    <test name="One Way Flight Tests">
         <classes>
-            <class name="io.github.nowshad.expedia.runners.FlightSearchRunner"/>
+            <class name="io.github.nowshad.expedia
+                .runners.FlightSearchRunner"/>
+        </classes>
+    </test>
+
+    <test name="Round Trip Flight Tests">
+        <classes>
+            <class name="io.github.nowshad.expedia
+                .runners.RoundTripRunner"/>
+        </classes>
+    </test>
+
+    <test name="Full Smoke Suite">
+        <classes>
+            <class name="io.github.nowshad.expedia
+                .runners.SmokeRunner"/>
         </classes>
     </test>
 

@@ -98,11 +98,11 @@ public class HomePage extends BasePage {
 		waitForSuggestions();
 		clickMatchedCity(Suggestions, city);
 		logger.info("Selected destination suggestion for: {}", city);
-		
+
 		// After destination selected, MMT auto-opens calendar
-	    // Give React a moment to render it
-	    waitForPageLoad();
-	    
+		// Give React a moment to render it
+		waitForPageLoad();
+
 		return this;
 
 	}
@@ -132,6 +132,26 @@ public class HomePage extends BasePage {
 		return this;
 	}
 
+	public HomePage selectReturnDate(int departureDays, int returnDays) {
+
+		// Business rule guard — MMT silently resets
+		// departure if return < departure
+		if (returnDays <= departureDays) {
+			throw new IllegalArgumentException("Return date (" + returnDays + " days) " + "must be after departure ("
+					+ departureDays + " days from today)");
+		}
+
+		logger.info("Selecting return date: {} days from today", returnDays);
+
+		// Calendar is already open — stays open after
+		// departure selection (confirmed Day 7 exploration)
+		DatePickerComponent datePicker = new DatePickerComponent();
+		datePicker.selectReturnDate(returnDays);
+
+		logger.info("Return date selected successfully");
+		return this;
+	}
+
 	// ─────────────────────────────────────────
 	// VERIFICATION METHODS
 	// ─────────────────────────────────────────
@@ -153,33 +173,26 @@ public class HomePage extends BasePage {
 		waitForElement(Suggestions, WaitStrategy.VISIBLE);
 		logger.debug("Suggestion dropdown appeared");
 	}
-	
-	
-	/**
-	 * Selects travellers with travel class.
-	 * TravellersComponent handles panel open internally.
-	 */
-	public HomePage selectTravellers(
-	        int adults,
-	        int children,
-	        int infants,
-	        TravellersComponent.TravelClass travelClass) {
 
-	    logger.info("Configuring travellers");
-	    TravellersComponent travellers =
-	        new TravellersComponent();
-	    travellers.setTravellers(
-	        adults, children, infants, travelClass);
-	    return this;
+	/**
+	 * Selects travellers with travel class. TravellersComponent handles panel open
+	 * internally.
+	 */
+	public HomePage selectTravellers(int adults, int children, int infants,
+			TravellersComponent.TravelClass travelClass) {
+
+		logger.info("Configuring travellers");
+		TravellersComponent travellers = new TravellersComponent();
+		travellers.setTravellers(adults, children, infants, travelClass);
+		return this;
 	}
 
 	/**
 	 * Default: 1 adult, Economy class.
 	 */
 	public HomePage selectDefaultTravellers() {
-	    TravellersComponent travellers =
-	        new TravellersComponent();
-	    travellers.setDefaultTravellers();
-	    return this;
+		TravellersComponent travellers = new TravellersComponent();
+		travellers.setDefaultTravellers();
+		return this;
 	}
 }

@@ -4,7 +4,7 @@ Feature: One Way Flight Search
   Background:
     Given the user is on MakeMyTrip homepage
 
-  @oneWay @sanity @e2e
+  @oneWay @sanity @e2e @smoke
   Scenario: User searches for a one way flight with all details
     When the user closes the login popup if present
     And the user clicks on Flights tab
@@ -17,7 +17,7 @@ Feature: One Way Flight Search
     Then the search results page should be displayed
     And the search URL should contain "DEL" and "BOM"
 
-  @oneWay
+  @oneWay @smoke
   Scenario Outline: User searches one way for multiple routes
     When the user closes the login popup if present
     And the user clicks on Flights tab

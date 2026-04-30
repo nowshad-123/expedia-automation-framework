@@ -88,36 +88,42 @@ public class DatePickerComponent extends BasePage {
     // ─────────────────────────────────────────
 
     private void navigateToMonth(LocalDate targetDate) {
-        String targetMonthYear =
-            DateUtil.formatMonthYear(targetDate);
-        logger.info("Target month: {}", targetMonthYear);
+    String targetMonthYear =
+        DateUtil.formatMonthYear(targetDate);
+    logger.info("Target month: {}", targetMonthYear);
 
-        int maxAttempts = 12;
-        int attempts = 0;
+    int maxAttempts = 12;
+    int attempts = 0;
 
-        while (attempts < maxAttempts) {
-            String currentMonth = getCurrentDisplayedMonth();
-            logger.info("Current month displayed: {}",
-                currentMonth);
+    while (attempts < maxAttempts) {
+        String currentMonth = getCurrentDisplayedMonth();
+        logger.info("Current month displayed: {}", currentMonth);
 
-            if (currentMonth.trim()
-                    .equalsIgnoreCase(targetMonthYear)) {
-                logger.info("Reached target month: {}",
-                    targetMonthYear);
-                return;
-            }
+        // ── KEY FIX ───────────────────────────────────
+        // Strip ALL spaces before comparing
+        // MMT renders "May2026" not "May 2026"
+        String currentNormalized =
+            currentMonth.replaceAll("\\s+", "").toLowerCase();
+        String targetNormalized =
+            targetMonthYear.replaceAll("\\s+", "").toLowerCase();
 
-            logger.info("Clicking next month arrow...");
-            click(nextMonthArrow);
-            attempts++;
+        if (currentNormalized.equals(targetNormalized)) {
+            logger.info("Target month reached: {}",
+                targetMonthYear);
+            return;
         }
 
-        throw new RuntimeException(
-            "Failed to reach month: " + targetMonthYear +
-            " after " + maxAttempts + " attempts. " +
-            "Last displayed month: " + getCurrentDisplayedMonth()
-        );
+        logger.info("Clicking next month arrow...");
+        click(nextMonthArrow);
+        attempts++;
     }
+
+    throw new RuntimeException(
+        "Failed to reach: " + targetMonthYear +
+        " after " + maxAttempts + " attempts. " +
+        "Last displayed: " + getCurrentDisplayedMonth()
+    );
+}
 
     private String getCurrentDisplayedMonth() {
         try {
