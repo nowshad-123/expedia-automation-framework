@@ -1,10 +1,10 @@
-@flights @smoke
+@flights 
 Feature: Round Trip Flight Search
 
   Background:
     Given the user is on MakeMyTrip homepage
 
-  @roundTrip @sanity @e2e @smoke
+  @roundTrip @smoke @e2e
   Scenario: User searches for a round trip flight
     When the user closes the login popup if present
     And the user clicks on Flights tab
@@ -18,7 +18,7 @@ Feature: Round Trip Flight Search
     Then the search results page should be displayed
     And the search URL should contain "DEL" and "BOM"
 
-  @roundTrip @smoke
+  @roundTrip @regression @dataDriven
   Scenario Outline: Round trip search for multiple routes
     When the user closes the login popup if present
     And the user clicks on Flights tab
