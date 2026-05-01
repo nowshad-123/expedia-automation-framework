@@ -1,10 +1,10 @@
-@flights @smoke
+@flights
 Feature: One Way Flight Search
 
   Background:
     Given the user is on MakeMyTrip homepage
 
-  @oneWay @sanity @e2e @smoke
+  @oneWay @smoke  @e2e
   Scenario: User searches for a one way flight with all details
     When the user closes the login popup if present
     And the user clicks on Flights tab
@@ -12,12 +12,12 @@ Feature: One Way Flight Search
     And the user enters origin city as "Delhi"
     And the user enters destination city as "Mumbai"
     And the user selects departure date as 7 days from today
-    And the user selects 5 adults 2 children 5 infants in Economy class
+    And the user selects 1 adults 0 children 0 infants in Economy class
     And the user clicks on Search button
     Then the search results page should be displayed
     And the search URL should contain "DEL" and "BOM"
 
-  @oneWay @smoke
+  @oneWay  @regression @dataDriven
   Scenario Outline: User searches one way for multiple routes
     When the user closes the login popup if present
     And the user clicks on Flights tab
