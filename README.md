@@ -137,6 +137,18 @@ mvn test -Dheadless=true
 
 ---
 
+## 📈 Sprint Progress
+
+### ✅ Sprint 1 — Foundation + Smoke (Days 1–8)
+- [x] Day 1 — Project setup, ConfigReader, Log4j2, Git
+- [x] Day 2 — DriverFactory, DriverManager, ThreadLocal
+- [x] Day 3 — BasePage, WaitStrategy, Explicit waits
+- [x] Day 4 — HomePage POM, One Way search automation
+- [x] Day 5 — DatePickerComponent, Dynamic date selection
+- [x] Day 6 — TravellersComponent, SearchResultsPage, E2E
+- [x] Day 7 — Round Trip, CommonStepDefs, Smoke suite
+- [x] Day 8 — Retry analyzer, Code audit, Retrospective
+
 ## 📊 Test Coverage — Sprint 1
 
 | Feature | Scenario | Tags | Status |
@@ -153,19 +165,18 @@ mvn test -Dheadless=true
 
 ---
 
-## 📈 Sprint Progress
+### 🚧 Sprint 2 — Results Intelligence (Days 9–16)
+- [x] Day 9 — FlightCardComponent, Results validation
+- [ ] Day 10 — Filters automation
+- [ ] Day 11 — Sorting validation
+- [ ] Day 12 — Price range validation
+- [ ] Day 13 — Airline filter scenarios
+- [ ] Day 14 — Stops filter scenarios
+- [ ] Day 15 — Page Component Model refactor
+- [ ] Day 16 — Sprint 2 review
 
-### ✅ Sprint 1 — Foundation + Smoke (Days 1–8)
-- [x] Day 1 — Project setup, ConfigReader, Log4j2, Git
-- [x] Day 2 — DriverFactory, DriverManager, ThreadLocal
-- [x] Day 3 — BasePage, WaitStrategy, Explicit waits
-- [x] Day 4 — HomePage POM, One Way search automation
-- [x] Day 5 — DatePickerComponent, Dynamic date selection
-- [x] Day 6 — TravellersComponent, SearchResultsPage, E2E
-- [x] Day 7 — Round Trip, CommonStepDefs, Smoke suite
-- [x] Day 8 — Retry analyzer, Code audit, Retrospective
+---
 
-### ⏳ Sprint 2 — Results Intelligence (Days 9–16)
 ### ⏳ Sprint 3 — Stability + Negative Testing (Days 17–22)
 ### ⏳ Sprint 4 — Scale + CI/CD + Portfolio (Days 23–28)
 
