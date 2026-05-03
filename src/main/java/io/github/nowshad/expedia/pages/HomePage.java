@@ -111,9 +111,22 @@ public class HomePage extends BasePage {
 	 * Clicks the Search button.
 	 */
 	public HomePage clickSearch() {
-		click(searchBtn);
-		logger.info("Clicked Search button");
-		return this;
+		logger.info("Preparing to click search...");
+
+	    // Hover over search button before clicking
+	    // Simulates human mouse movement
+	    hover(searchBtn);
+
+	    // Brief pause — human reaction time
+	    try {
+	        Thread.sleep(1500);
+	    } catch (InterruptedException e) {
+	        Thread.currentThread().interrupt();
+	    }
+
+	    click(searchBtn);
+	    logger.info("Clicked Search button");
+	    return this;
 	}
 
 	// Add to actions section

@@ -1,4 +1,4 @@
-@sanity
+@regression @sanity
 Feature: Framework Sanity Check
 
   @sanity @smoke
