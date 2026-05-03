@@ -1,12 +1,9 @@
 package io.github.nowshad.expedia.stepDefinitions;
 
-
 import io.github.nowshad.expedia.components.TravellersComponent;
 import io.github.nowshad.expedia.pages.HomePage;
-import io.github.nowshad.expedia.pages.SearchResultsPage;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
-import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,17 +15,15 @@ public class CommonStepDefs {
         LogManager.getLogger(CommonStepDefs.class);
 
     private final HomePage homePage = new HomePage();
-    private final SearchResultsPage resultsPage =
-        new SearchResultsPage();
 
     // ─────────────────────────────────────────
-    //  SHARED STEPS — used by both
-    //  FlightSearch and RoundTrip scenarios
+    //  SHARED STEPS — homepage + search form
+    //  Results steps moved to SearchResultsStepDefs
     // ─────────────────────────────────────────
 
     @Given("the user is on MakeMyTrip homepage")
     public void theUserIsOnHomepage() {
-        logger.info("Verifying MakeMyTrip homepage loaded");
+        logger.info("Verifying homepage loaded");
         Assert.assertTrue(
             homePage.isHomePageLoaded(),
             "Homepage did not load correctly"
@@ -55,7 +50,8 @@ public class CommonStepDefs {
         homePage.enterDestination(city);
     }
 
-    @And("the user selects departure date as {int} days from today")
+    @And("the user selects departure date as " +
+         "{int} days from today")
     public void selectDepartureDate(int days) {
         homePage.selectDepartureDate(days);
     }
@@ -73,26 +69,5 @@ public class CommonStepDefs {
     @And("the user clicks on Search button")
     public void clickSearch() {
         homePage.clickSearch();
-    }
-
-    @Then("the search results page should be displayed")
-    public void verifyResultsPage() {
-        resultsPage.waitForResultsToLoad();
-        Assert.assertTrue(
-            resultsPage.isResultsPageLoaded(),
-            "Results page not loaded. URL: " +
-            resultsPage.getSearchUrl()
-        );
-    }
-
-    @And("the search URL should contain {string} and {string}")
-    public void verifyRouteInUrl(
-            String origin, String dest) {
-        Assert.assertTrue(
-            resultsPage.isCorrectRoute(origin, dest),
-            "Route not found. Expected: " +
-            origin + "-" + dest +
-            " | URL: " + resultsPage.getSearchUrl()
-        );
     }
 }

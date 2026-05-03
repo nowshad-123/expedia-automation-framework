@@ -24,6 +24,13 @@
 			<class name="io.github.nowshad.expedia.runners.RoundTripRunner" />
 		</classes>
 	</test>
+	
+	<test name="Search Results Tests">
+        <classes>
+            <class name=
+                "io.github.nowshad.expedia.runners.ResultsRunner"/>
+        </classes>
+    </test>
 
 	<test name="Full Smoke Suite">
 		<classes>
@@ -36,5 +43,7 @@
 			<class name="io.github.nowshad.expedia.runners.RegressionRunner" />
 		</classes>
 	</test>
+	
+	
 
 </suite>
