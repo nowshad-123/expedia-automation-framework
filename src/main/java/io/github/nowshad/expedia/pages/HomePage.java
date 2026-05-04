@@ -19,6 +19,8 @@ public class HomePage extends BasePage {
 	private final By loginPopupClose = By.xpath("//span[@class='commonModal__close']");
 
 	private final By flightsTab = By.xpath("//li[@class = 'menu_Flights']");
+	
+	private final By flightsTabStatus = By.xpath(".//a[contains(@class,'active')]");
 
 	private final By oneWayBtn = By.xpath("//li[@data-cy = 'oneWayTrip']");
 
@@ -33,6 +35,7 @@ public class HomePage extends BasePage {
 	private final By Suggestions = By.xpath("//ul[contains(@class,'react-autosuggest__suggestions-list')]//li");
 
 	private final By searchBtn = By.cssSelector("a.primaryBtn");
+	
 
 	// ─────────────────────────────────────────
 	// PAGE ACTIONS
@@ -51,15 +54,22 @@ public class HomePage extends BasePage {
 		}
 		return this;
 	}
+	
 
 	public HomePage clickFlightsTab() {
-		click(flightsTab);
-		logger.info("Clicked Flights tab");
-		// Wait for React to re-render trip type buttons
-		waitForPageLoad();
-		waitForElement(oneWayBtn, WaitStrategy.VISIBLE);
-		logger.info("Flight search form is ready");
-		return this;
+	    if (!isDisplayed(flightsTabStatus)) {
+	        click(flightsTab);
+	        logger.info("Clicked Flights tab");
+	    } else {
+	        logger.info("Flights tab already active");
+	    }
+
+	    // Common post-condition
+	    waitForPageLoad();
+	    waitForElement(oneWayBtn, WaitStrategy.VISIBLE);
+	    logger.info("Flight search form is ready");
+
+	    return this;
 	}
 
 	public HomePage selectOneWay() {

@@ -1,10 +1,12 @@
 package io.github.nowshad.expedia.pages;
 
-import io.github.nowshad.expedia.components.FlightCardComponent;
-import io.github.nowshad.expedia.enums.WaitStrategy;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
+
+import io.github.nowshad.expedia.components.FilterComponent;
+import io.github.nowshad.expedia.components.FlightCardComponent;
+import io.github.nowshad.expedia.enums.WaitStrategy;
 
 public class SearchResultsPage extends BasePage {
 
@@ -15,6 +17,8 @@ public class SearchResultsPage extends BasePage {
     private final FlightCardComponent flightCards =
         new FlightCardComponent();
 
+    private final FilterComponent filterComponent =
+    	    new FilterComponent();
     // ─────────────────────────────────────────
     //  LOCATORS — confirmed from DevTools
     // ─────────────────────────────────────────
@@ -176,5 +180,54 @@ public class SearchResultsPage extends BasePage {
      */
     public boolean isFilterSectionVisible() {
         return isDisplayed(filterSection);
+    }
+    
+   
+
+    /**
+     * Returns FilterComponent for filter operations.
+     */
+    public FilterComponent filters() {
+        return filterComponent;
+    }
+
+    /**
+     * Returns current flight card count.
+     * Used to verify filter changed results.
+     */
+    public int getCurrentResultCount() {
+        return filterComponent.getCurrentResultCount();
+    }
+
+    /**
+     * Selects non stop filter directly from page.
+     */
+    public SearchResultsPage filterByNonStop() {
+        filterComponent.selectNonStop();
+        return this;
+    }
+
+    /**
+     * Selects one stop filter directly from page.
+     */
+    public SearchResultsPage filterByOneStop() {
+        filterComponent.selectOneStop();
+        return this;
+    }
+
+    /**
+     * Filters by specific airline name.
+     */
+    public SearchResultsPage filterByAirline(String airlineName) {
+        filterComponent.selectAirline(airlineName);
+        return this;
+    }
+
+    /**
+     * Clears all applied filters.
+     */
+    public SearchResultsPage clearAllFilters() {
+        filterComponent.clearAllFilters();
+        return this;
     }
 }
