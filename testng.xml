@@ -55,4 +55,12 @@
 		</classes>
 	</test>
 
+	<test name="Data Driven Tests">
+		<classes>
+			<class
+				name="io.github.nowshad.expedia.runners
+            .DataDrivenRunner" />
+		</classes>
+	</test>
+
 </suite>
