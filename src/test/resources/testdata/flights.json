@@ -1,0 +1,101 @@
+{
+  "oneWayFlights": [
+    {
+      "testId": "OW_001",
+      "description": "Delhi to Mumbai Economy",
+      "origin": "Delhi",
+      "destination": "Mumbai",
+      "departureDays": 7,
+      "adults": 1,
+      "children": 0,
+      "infants": 0,
+      "travelClass": "Economy"
+    },
+    {
+      "testId": "OW_002",
+      "description": "Bangalore to Chennai Economy",
+      "origin": "Bangalore",
+      "destination": "Chennai",
+      "departureDays": 10,
+      "adults": 2,
+      "children": 0,
+      "infants": 0,
+      "travelClass": "Economy"
+    },
+    {
+      "testId": "OW_003",
+      "description": "Kolkata to Hyderabad Economy",
+      "origin": "Kolkata",
+      "destination": "Hyderabad",
+      "departureDays": 14,
+      "adults": 1,
+      "children": 0,
+      "infants": 0,
+      "travelClass": "Economy"
+    }
+  ],
+  "roundTripFlights": [
+    {
+      "testId": "RT_001",
+      "description": "Delhi to Mumbai Round Trip",
+      "origin": "Delhi",
+      "destination": "Mumbai",
+      "departureDays": 7,
+      "returnDays": 14,
+      "adults": 1,
+      "children": 0,
+      "infants": 0,
+      "travelClass": "Economy"
+    },
+    {
+      "testId": "RT_002",
+      "description": "Bangalore to Chennai Round Trip",
+      "origin": "Bangalore",
+      "destination": "Chennai",
+      "departureDays": 10,
+      "returnDays": 17,
+      "adults": 2,
+      "children": 0,
+      "infants": 0,
+      "travelClass": "Economy"
+    },
+    {
+      "testId": "RT_003",
+      "description": "Kolkata to Hyderabad Round Trip",
+      "origin": "Kolkata",
+      "destination": "Hyderabad",
+      "departureDays": 14,
+      "returnDays": 21,
+      "adults": 1,
+      "children": 0,
+      "infants": 0,
+      "travelClass": "Economy"
+    }
+  ],
+  "negativeTests": [
+    {
+      "testId": "NEG_001",
+      "description": "Same origin and destination",
+      "origin": "Delhi",
+      "destination": "Delhi",
+      "departureDays": 7,
+      "adults": 1,
+      "children": 0,
+      "infants": 0,
+      "travelClass": "Economy",
+      "expectedError": "Origin and destination cannot be same"
+    },
+    {
+      "testId": "NEG_002",
+      "description": "No results route",
+      "origin": "Delhi",
+      "destination": "Leh",
+      "departureDays": 7,
+      "adults": 1,
+      "children": 0,
+      "infants": 0,
+      "travelClass": "Economy",
+      "expectedError": "No flights found"
+    }
+  ]
+}s

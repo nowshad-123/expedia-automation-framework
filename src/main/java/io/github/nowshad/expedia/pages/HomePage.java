@@ -40,7 +40,43 @@ public class HomePage extends BasePage {
 	private final By commonOverlayContainerLocator  = By.xpath("//div[contains(@class,'commonOverlay')]");
 	
 	
-	
+	private void dismissSpaOverlay() {
+	    By spaOverlay = By.xpath(
+	        "//div[contains(@class,'spa-classic-peek')]"
+	    );
+	    By spaClose = By.xpath(
+	        "//div[contains(@class,'spa-classic-peek')]" +
+	        "//span[contains(@class,'close')]" +
+	        " | //div[contains(@class,'spa-classic-peek')]" +
+	        "//button"
+	    );
+
+	    try {
+	        if (isDisplayed(spaOverlay)) {
+	            logger.info("spa-classic-peek overlay " +
+	                "detected — dismissing");
+	            try {
+	                // Try clicking close button first
+	                jsClick(spaClose);
+	                logger.info("SPA overlay closed " +
+	                    "via close button");
+	            } catch (Exception e) {
+	                // If no close button — JS hide it
+	                ((org.openqa.selenium.JavascriptExecutor)
+	                    getDriver())
+	                    .executeScript(
+	                        "document.querySelector(" +
+	                        "'.spa-classic-peek')" +
+	                        ".style.display='none';"
+	                    );
+	                logger.info("SPA overlay hidden via JS");
+	            }
+	        }
+	    } catch (Exception e) {
+	        logger.debug("No spa overlay present: {}",
+	            e.getMessage());
+	    }
+	}
 	
 
 	// ─────────────────────────────────────────
@@ -80,12 +116,16 @@ public class HomePage extends BasePage {
 
 	public HomePage selectOneWay() {
 		// Use retry-safe method instead of plain click
+		// Dismiss spa-classic-peek overlay if present
+	    dismissSpaOverlay();
 		getElementWithRetry(oneWayBtn, WaitStrategy.CLICKABLE).click();
 		logger.info("Selected One Way trip type");
 		return this;
 	}
 
 	public HomePage selectRoundTrip() {
+		// Dismiss spa-classic-peek overlay if present
+	    dismissSpaOverlay();
 		getElementWithRetry(roundTripBtn, WaitStrategy.CLICKABLE).click();
 		logger.info("Selected Round Trip type");
 		return this;
@@ -236,3 +276,4 @@ public class HomePage extends BasePage {
 	    return this;
 	}
 }
+
