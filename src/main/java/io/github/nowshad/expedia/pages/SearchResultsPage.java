@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 
 import io.github.nowshad.expedia.components.FilterComponent;
 import io.github.nowshad.expedia.components.FlightCardComponent;
+import io.github.nowshad.expedia.components.SortComponent;
 import io.github.nowshad.expedia.enums.WaitStrategy;
 
 public class SearchResultsPage extends BasePage {
@@ -19,6 +20,9 @@ public class SearchResultsPage extends BasePage {
 
     private final FilterComponent filterComponent =
     	    new FilterComponent();
+    
+    private final SortComponent sortComponent =
+    	    new SortComponent();
     // ─────────────────────────────────────────
     //  LOCATORS — confirmed from DevTools
     // ─────────────────────────────────────────
@@ -229,5 +233,73 @@ public class SearchResultsPage extends BasePage {
     public SearchResultsPage clearAllFilters() {
         filterComponent.clearAllFilters();
         return this;
+    }
+    
+
+    /**
+     * Returns SortComponent for sort operations.
+     */
+    public SortComponent sort() {
+        return sortComponent;
+    }
+
+    /**
+     * Sorts results by Cheapest.
+     */
+    public SearchResultsPage sortByCheapest() {
+        sortComponent.sortByCheapest();
+        return this;
+    }
+
+    /**
+     * Sorts by Non Stop First.
+     */
+    public SearchResultsPage sortByNonStopFirst() {
+        sortComponent.sortByNonStopFirst();
+        return this;
+    }
+
+    /**
+     * Sorts by Early Departure.
+     */
+    public SearchResultsPage sortByEarlyDeparture() {
+        sortComponent.sortByEarlyDeparture();
+        return this;
+    }
+
+    /**
+     * Sorts by Late Departure.
+     */
+    public SearchResultsPage sortByLateDeparture() {
+        sortComponent.sortByLateDeparture();
+        return this;
+    }
+
+    /**
+     * Verifies prices sorted Low to High.
+     */
+    public boolean arePricesSortedLowToHigh() {
+        return sortComponent.arePricesSortedLowToHigh();
+    }
+
+    /**
+     * Returns first flight price after sort.
+     */
+    public int getFirstFlightPriceAfterSort() {
+        return sortComponent.getFirstFlightPrice();
+    }
+
+    /**
+     * Returns second flight price after sort.
+     */
+    public int getSecondFlightPriceAfterSort() {
+        return sortComponent.getSecondFlightPrice();
+    }
+
+    /**
+     * Verifies sort tab is active.
+     */
+    public boolean isSortActive(String tabName) {
+        return sortComponent.isSortTabActive(tabName);
     }
 }

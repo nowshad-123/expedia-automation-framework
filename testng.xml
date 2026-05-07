@@ -49,4 +49,10 @@
 		</classes>
 	</test>
 
+	<test name="Sort Tests">
+		<classes>
+			<class name="io.github.nowshad.expedia.runners.SortRunner" />
+		</classes>
+	</test>
+
 </suite>

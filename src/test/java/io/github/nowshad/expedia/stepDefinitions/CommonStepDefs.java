@@ -1,13 +1,14 @@
 package io.github.nowshad.expedia.stepDefinitions;
 
-import io.github.nowshad.expedia.components.TravellersComponent;
-import io.github.nowshad.expedia.pages.HomePage;
-import io.cucumber.java.en.And;
-import io.cucumber.java.en.Given;
-import io.cucumber.java.en.When;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
+
+import io.cucumber.java.en.And;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.When;
+import io.github.nowshad.expedia.components.TravellersComponent;
+import io.github.nowshad.expedia.pages.HomePage;
 
 public class CommonStepDefs {
 
@@ -65,9 +66,16 @@ public class CommonStepDefs {
             TravellersComponent.TravelClass.ECONOMY
         );
     }
+    
+    @And("the user close popup")
+    public void closeCommonOverlay() {
+    	homePage.closeOverlayIfPresent();
+    }
 
     @And("the user clicks on Search button")
     public void clickSearch() {
         homePage.clickSearch();
     }
+    
+    
 }

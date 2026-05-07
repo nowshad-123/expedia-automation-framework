@@ -41,7 +41,7 @@ public class FilterComponent extends BasePage {
 	// One Stop checkbox — confirmed locator
 	private final By oneStopCheckbox = By.xpath("(//p[@class='checkboxTitle'][normalize-space()='1 Stop'])[2]");
 
-	private final By oneStopCheckboxFallback = By.xpath("//*[contains(text(), '1 Stop')]");
+	private final By oneStopCheckboxFallback = By.xpath("//*[contains(text(), '1 Stop')]");	
 
 	// Price slider container
 	private final By priceSlider = By
@@ -234,7 +234,7 @@ public class FilterComponent extends BasePage {
 	 */
 	public int getCurrentResultCount() {
 		try {
-			List<WebElement> cards = waitForElements(flightCards);
+			List<WebElement> cards = getDriver().findElements(flightCards);
 			logger.info("Current result count: {}", cards.size());
 			return cards.size();
 		} catch (Exception e) {

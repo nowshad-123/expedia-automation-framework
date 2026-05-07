@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 
 import io.github.nowshad.expedia.components.DatePickerComponent;
+import io.github.nowshad.expedia.components.SortComponent;
 import io.github.nowshad.expedia.components.TravellersComponent;
 import io.github.nowshad.expedia.enums.WaitStrategy;
 
@@ -35,6 +36,11 @@ public class HomePage extends BasePage {
 	private final By Suggestions = By.xpath("//ul[contains(@class,'react-autosuggest__suggestions-list')]//li");
 
 	private final By searchBtn = By.cssSelector("a.primaryBtn");
+	
+	private final By commonOverlayContainerLocator  = By.xpath("//div[contains(@class,'commonOverlay')]");
+	
+	
+	
 	
 
 	// ─────────────────────────────────────────
@@ -217,5 +223,16 @@ public class HomePage extends BasePage {
 		TravellersComponent travellers = new TravellersComponent();
 		travellers.setDefaultTravellers();
 		return this;
+	}
+	
+	public HomePage closeOverlayIfPresent() {
+	    if (isDisplayed(commonOverlayContainerLocator)) {
+	        logger.info("Overlay is present, attempting to close");
+	        SortComponent sort = new SortComponent();
+	        sort.closeOverlay();
+	    } else {
+	        logger.info("Overlay not present, skipping");
+	    }
+	    return this;
 	}
 }
