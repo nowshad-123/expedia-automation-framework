@@ -66,7 +66,7 @@ public class FlightCardComponent extends BasePage {
     public int getFlightCardCount() {
         try {
             List<WebElement> cards =
-                waitForElements(allFlightCards);
+               getDriver().findElements(airlineNameLocator);
             logger.info("Flight cards found: {}",
                 cards.size());
             return cards.size();
@@ -81,7 +81,7 @@ public class FlightCardComponent extends BasePage {
      * Returns all visible flight cards.
      */
     public List<WebElement> getAllFlightCards() {
-        return waitForElements(allFlightCards);
+        return getDriver().findElements(allFlightCards);
     }
 
     /**

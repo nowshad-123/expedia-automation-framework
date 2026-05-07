@@ -94,17 +94,12 @@ public class DriverFactory {
         EdgeOptions options = new EdgeOptions();
         
      // Fix ERR_HTTP2_PROTOCOL_ERROR
-        options.addArguments("--incognito");
-//        options.addArguments("--disable-http2");
-//        options.addArguments("--disable-notifications");
-//        options.addArguments("--disable-popup-blocking");
-//        options.addArguments("--start-maximized");
-//        options.addArguments("--no-sandbox");
-//        options.addArguments("--disable-dev-shm-usage");
-//        options.addArguments("--disable-blink-features=AutomationControlled");
-//        options.setExperimentalOption("excludeSwitches",
-//            java.util.List.of("enable-automation"));
-//        options.setExperimentalOption("useAutomationExtension", false);
+        options.addArguments("--incognito"); 
+        options.addArguments("--headless");
+        // Set large viewport — prevents elements
+        // falling outside visible area
+        options.addArguments("--width=1920");
+        options.addArguments("--height=1080");
 
         if (headless) {
             options.addArguments("--headless=new");
