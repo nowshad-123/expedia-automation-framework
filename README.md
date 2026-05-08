@@ -166,15 +166,14 @@ mvn test -Dheadless=true
 ---
 
 ### 🚧 Sprint 2 — Results Intelligence (Days 9–16)
-- [x] Day 9 — FlightCardComponent, Results validation
-- [ ] Day 10 — Filters automation
-- [ ] Day 11 — Sorting validation
-- [ ] Day 12 — Price range validation
-- [ ] Day 13 — Airline filter scenarios
-- [ ] Day 14 — Stops filter scenarios
-- [ ] Day 15 — Page Component Model refactor
-- [ ] Day 16 — Sprint 2 review
-
+- [x] Day 9  — FlightCardComponent, Results validation
+- [x] Day 10 — FilterComponent, Airline/Stops/Price filters
+- [x] Day 11 — SortComponent, Cheapest/NonStop/Dropdown sort
+- [x] Day 12 — JsonDataReader, ExcelDataReader, DDT
+- [x] Day 13 — Combined filters, PCM refactor, DDT filters
+- [ ] Day 14 — Extended DDT coverage + Sprint 2 hardening
+- [ ] Day 15 — Sprint 2 full regression run
+- [ ] Day 16 — Sprint 2 review + release tag
 ---
 
 ### ⏳ Sprint 3 — Stability + Negative Testing (Days 17–22)
