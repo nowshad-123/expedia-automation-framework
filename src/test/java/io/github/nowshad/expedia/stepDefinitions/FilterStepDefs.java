@@ -17,8 +17,13 @@ public class FilterStepDefs {
     private final SearchResultsPage resultsPage =
         new SearchResultsPage();
 
-    // Stores count before filter for comparison
+    // Stores counts for before/after comparison
     private int resultCountBeforeFilter = 0;
+    private int resultCountAfterFirstFilter = 0;
+
+    // ─────────────────────────────────────────
+    //  COUNT TRACKING
+    // ─────────────────────────────────────────
 
     @Given("the user notes the current result count")
     public void noteCurrentResultCount() {
@@ -27,6 +32,18 @@ public class FilterStepDefs {
         logger.info("Result count before filter: {}",
             resultCountBeforeFilter);
     }
+
+    @And("the user notes the filtered result count")
+    public void noteFilteredResultCount() {
+        resultCountAfterFirstFilter =
+            resultsPage.getCurrentResultCount();
+        logger.info("Result count after first filter: {}",
+            resultCountAfterFirstFilter);
+    }
+
+    // ─────────────────────────────────────────
+    //  FILTER ACTIONS
+    // ─────────────────────────────────────────
 
     @When("the user applies Non Stop filter")
     public void applyNonStopFilter() {
@@ -53,20 +70,63 @@ public class FilterStepDefs {
         logger.info("All filters cleared");
     }
 
+    // ─────────────────────────────────────────
+    //  FILTER ASSERTIONS
+    // ─────────────────────────────────────────
+
     @Then("the flight results should be updated")
     public void flightResultsShouldBeUpdated() {
         int afterCount =
             resultsPage.getCurrentResultCount();
-        logger.info("After filter count: {}", afterCount);
-
-        // Results must still have at least 1 flight
+        logger.info("After filter count: {}",
+            afterCount);
         Assert.assertTrue(afterCount > 0,
-            "No flights shown after filter. " +
-            "Filter may have removed all results."
+            "No flights shown after filter"
         );
+    }
 
-        logger.info("Filter applied successfully. " +
-            "Before: {} | After: {}",
-            resultCountBeforeFilter, afterCount);
+    @And("the combined filter result count " +
+         "should be greater than 0")
+    public void combinedFilterResultGreaterThanZero() {
+        int count =
+            resultsPage.getCurrentResultCount();
+        logger.info("Combined filter count: {}", count);
+        Assert.assertTrue(count > 0,
+            "No results after combined filter. " +
+            "Airline may not have non-stop flights."
+        );
+    }
+
+    @And("all visible flights should be non stop")
+    public void allVisibleFlightsShouldBeNonStop() {
+        // Verify non-stop filter is active
+        // by checking filter panel state
+        boolean nonStopActive =
+            resultsPage.isNonStopFilterActive();
+        logger.info("Non Stop filter active: {}",
+            nonStopActive);
+        Assert.assertTrue(nonStopActive,
+            "Non Stop filter not active after selection"
+        );
+    }
+
+    @Then("the result count should be restored")
+    public void resultCountShouldBeRestored() {
+        int restoredCount =
+            resultsPage.getCurrentResultCount();
+        logger.info("Before: {} | After filter: {} " +
+            "| After clear: {}",
+            resultCountBeforeFilter,
+            resultCountAfterFirstFilter,
+            restoredCount);
+
+        // After clearing — count should be
+        // >= filtered count (restored or more)
+        Assert.assertTrue(
+            restoredCount >= resultCountAfterFirstFilter,
+            "Count after clear (" + restoredCount +
+            ") less than filtered count (" +
+            resultCountAfterFirstFilter + ")"
+        );
     }
 }

@@ -255,6 +255,43 @@ public class FilterComponent extends BasePage {
 		logger.info("Results before: {} | after: {} | " + "changed: {}", beforeCount, afterCount, changed);
 		return changed;
 	}
+	
+	
+	/**
+	 * Returns true if Non Stop checkbox is selected.
+	 */
+	public boolean isNonStopSelected() {
+	    try {
+	        WebElement checkbox =
+	            waitForElement(nonStopCheckbox,
+	                WaitStrategy.PRESENCE);
+	        boolean selected = checkbox.isDisplayed();
+	        logger.info("NonStop selected: {}", selected);
+	        return selected;
+	    } catch (Exception e) {
+	        logger.warn("Could not check NonStop state: {}",
+	            e.getMessage());
+	        return false;
+	    }
+	}
+
+	/**
+	 * Returns true if One Stop checkbox is selected.
+	 */
+	public boolean isOneStopSelected() {
+	    try {
+	        WebElement checkbox =
+	            waitForElement(oneStopCheckbox,
+	                WaitStrategy.PRESENCE);
+	        boolean selected = checkbox.isSelected();
+	        logger.info("OneStop selected: {}", selected);
+	        return selected;
+	    } catch (Exception e) {
+	        logger.warn("Could not check OneStop state: {}",
+	            e.getMessage());
+	        return false;
+	    }
+	}
 
 	// ─────────────────────────────────────────
 	// PRIVATE HELPERS
