@@ -9,6 +9,7 @@ public class FlightDataWrapper {
     private List<FlightTestData> oneWayFlights;
     private List<FlightTestData> roundTripFlights;
     private List<FlightTestData> negativeTests;
+    private List<FlightTestData> filterScenarios;
 
     public List<FlightTestData> getOneWayFlights() {
         return oneWayFlights;
@@ -32,5 +33,15 @@ public class FlightDataWrapper {
     public void setNegativeTests(
             List<FlightTestData> negativeTests) {
         this.negativeTests = negativeTests;
+    }
+    
+   
+
+    public List<FlightTestData> getFilterScenarios() {
+        return filterScenarios;
+    }
+    public void setFilterScenarios(
+            List<FlightTestData> filterScenarios) {
+        this.filterScenarios = filterScenarios;
     }
 }

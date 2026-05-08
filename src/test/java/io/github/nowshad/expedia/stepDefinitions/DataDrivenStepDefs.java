@@ -1,14 +1,16 @@
 package io.github.nowshad.expedia.stepDefinitions;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import io.cucumber.java.en.And;
+import io.cucumber.java.en.Given;
 import io.github.nowshad.expedia.components.TravellersComponent;
 import io.github.nowshad.expedia.models.FlightTestData;
 import io.github.nowshad.expedia.pages.HomePage;
+import io.github.nowshad.expedia.pages.SearchResultsPage;
 import io.github.nowshad.expedia.utilis.ExcelDataReader;
 import io.github.nowshad.expedia.utilis.JsonDataReader;
-import io.cucumber.java.en.And;
-import io.cucumber.java.en.Given;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class DataDrivenStepDefs {
 
@@ -19,6 +21,10 @@ public class DataDrivenStepDefs {
 
     // Holds current test data for this scenario
     private FlightTestData currentTestData;
+    
+ // Add field
+    private final SearchResultsPage resultsPage =
+        new SearchResultsPage();
 
     // ─────────────────────────────────────────
     //  DATA LOADING STEPS
@@ -27,8 +33,8 @@ public class DataDrivenStepDefs {
     @Given("the flight data is loaded from JSON " +
            "for testId {string}")
     public void loadFlightDataFromJson(String testId) {
-        currentTestData =
-            JsonDataReader.getOneWayFlightById(testId);
+    	currentTestData =
+    	        JsonDataReader.getByTestId(testId);
         logger.info("JSON data loaded for: {} | {}→{}",
             currentTestData.getTestId(),
             currentTestData.getOrigin(),
@@ -100,6 +106,43 @@ public class DataDrivenStepDefs {
             currentTestData.getInfants(),
             travelClass
         );
+    }
+ 
+
+    
+    @And("the user applies filter from test data")
+    public void applyFilterFromTestData() {
+        validateDataLoaded();
+        String filterType =
+            currentTestData.getFilterType();
+        logger.info("Applying filter type: {}",
+            filterType);
+
+        switch (filterType.toLowerCase()) {
+            case "nonstop":
+                resultsPage.filterByNonStop();
+                break;
+            case "onestop":
+                resultsPage.filterByOneStop();
+                break;
+            case "airline":
+                String airline =
+                    currentTestData.getAirlineName();
+                resultsPage.filterByAirline(airline);
+                break;
+            case "combined":
+                resultsPage.filterByNonStop();
+                String combinedAirline =
+                    currentTestData.getAirlineName();
+                if (!combinedAirline.isEmpty()) {
+                    resultsPage.filterByAirline(
+                        combinedAirline);
+                }
+                break;
+            default:
+                logger.warn("Unknown filter type: {}",
+                    filterType);
+        }
     }
 
     // ─────────────────────────────────────────

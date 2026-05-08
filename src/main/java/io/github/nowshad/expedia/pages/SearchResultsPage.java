@@ -302,4 +302,18 @@ public class SearchResultsPage extends BasePage {
     public boolean isSortActive(String tabName) {
         return sortComponent.isSortTabActive(tabName);
     }
+    
+    /**
+     * Verifies Non Stop filter checkbox is selected.
+     */
+    public boolean isNonStopFilterActive() {
+        return filterComponent.isNonStopSelected();
+    }
+
+    /**
+     * Verifies One Stop filter checkbox is selected.
+     */
+    public boolean isOneStopFilterActive() {
+        return filterComponent.isOneStopSelected();
+    }
 }

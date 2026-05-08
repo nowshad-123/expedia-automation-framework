@@ -16,6 +16,8 @@ public class FlightTestData {
     private int infants;
     private String travelClass;
     private String expectedError;
+    private String filterType;
+    private String airlineName;
 
     // ─────────────────────────────────────────
     //  GETTERS AND SETTERS
@@ -85,6 +87,22 @@ public class FlightTestData {
     public void setExpectedError(String expectedError) {
         this.expectedError = expectedError;
     }
+    
+    public String getFilterType() {
+        return filterType != null ? filterType : "";
+    }
+    public void setFilterType(String filterType) {
+        this.filterType = filterType;
+    }
+
+    public String getAirlineName() {
+        return airlineName != null ? airlineName : "";
+    }
+    public void setAirlineName(String airlineName) {
+        this.airlineName = airlineName;
+    }
+    
+    
 
     @Override
     public String toString() {

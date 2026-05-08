@@ -1,15 +1,17 @@
 package io.github.nowshad.expedia.utilis;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.nowshad.expedia.models.FlightDataWrapper;
-import io.github.nowshad.expedia.models.FlightTestData;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import io.github.nowshad.expedia.models.FlightDataWrapper;
+import io.github.nowshad.expedia.models.FlightTestData;
 
 public class JsonDataReader {
 
@@ -83,6 +85,13 @@ public class JsonDataReader {
             ? dataWrapper.getNegativeTests()
             : Collections.emptyList();
     }
+    
+    public static List<FlightTestData> getFilterScenarios() {
+        return dataWrapper != null &&
+               dataWrapper.getFilterScenarios() != null
+            ? dataWrapper.getFilterScenarios()
+            : Collections.emptyList();
+    }
 
     /**
      * Returns one way flight by testId.
@@ -122,6 +131,70 @@ public class JsonDataReader {
             .orElseThrow(() ->
                 new RuntimeException(
                     "TestId not found: " + testId));
+    }
+    
+    /**
+     * Searches ALL sections of flights.json
+     * for a matching testId.
+     * Order: oneWay → roundTrip → filter → negative
+     */
+    public static FlightTestData getByTestId(
+            String testId) {
+
+        // Search oneWayFlights
+        FlightTestData result = getOneWayFlights()
+            .stream()
+            .filter(f -> f.getTestId().equals(testId))
+            .findFirst()
+            .orElse(null);
+        if (result != null) {
+            logger.info("Found {} in oneWayFlights",
+                testId);
+            return result;
+        }
+
+        // Search roundTripFlights
+        result = getRoundTripFlights()
+            .stream()
+            .filter(f -> f.getTestId().equals(testId))
+            .findFirst()
+            .orElse(null);
+        if (result != null) {
+            logger.info("Found {} in roundTripFlights",
+                testId);
+            return result;
+        }
+
+        // Search filterScenarios
+        result = getFilterScenarios()
+            .stream()
+            .filter(f -> f.getTestId().equals(testId))
+            .findFirst()
+            .orElse(null);
+        if (result != null) {
+            logger.info("Found {} in filterScenarios",
+                testId);
+            return result;
+        }
+
+        // Search negativeTests
+        result = getNegativeTests()
+            .stream()
+            .filter(f -> f.getTestId().equals(testId))
+            .findFirst()
+            .orElse(null);
+        if (result != null) {
+            logger.info("Found {} in negativeTests",
+                testId);
+            return result;
+        }
+
+        throw new RuntimeException(
+            "TestId '" + testId +
+            "' not found in any section of flights.json." +
+            " Available sections: oneWayFlights, " +
+            "roundTripFlights, filterScenarios, negativeTests"
+        );
     }
 
     private JsonDataReader() {}

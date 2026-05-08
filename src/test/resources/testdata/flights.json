@@ -97,5 +97,47 @@
       "travelClass": "Economy",
       "expectedError": "No flights found"
     }
-  ]
-}s
+  ],
+  "filterScenarios": [
+      {
+        "testId": "FILTER_001",
+        "description": "Non Stop filter Delhi Mumbai",
+        "origin": "Delhi",
+        "destination": "Mumbai",
+        "departureDays": 7,
+        "adults": 1,
+        "children": 0,
+        "infants": 0,
+        "travelClass": "Economy",
+        "filterType": "nonStop",
+        "airlineName": ""
+      },
+      {
+        "testId": "FILTER_002",
+        "description": "Airline filter IndiGo Delhi Mumbai",
+        "origin": "Delhi",
+        "destination": "Mumbai",
+        "departureDays": 7,
+        "adults": 1,
+        "children": 0,
+        "infants": 0,
+        "travelClass": "Economy",
+        "filterType": "airline",
+        "airlineName": "IndiGo"
+      },
+      {
+        "testId": "FILTER_003",
+        "description": "Combined NonStop and IndiGo",
+        "origin": "Delhi",
+        "destination": "Mumbai",
+        "departureDays": 7,
+        "adults": 1,
+        "children": 0,
+        "infants": 0,
+        "travelClass": "Economy",
+        "filterType": "combined",
+        "airlineName": "IndiGo"
+      }
+    ]
+  }
+}
