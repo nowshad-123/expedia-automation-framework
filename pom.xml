@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	
+
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.expedia</groupId>
 	<artifactId>expedia-automation-framework</artifactId>
 	<version>1.0.0</version>
-	
+
 	<packaging>jar</packaging>
 
 	<properties>
-	
+
 		<maven.compiler.source>21</maven.compiler.source>
 		<maven.compiler.target>21</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		
+
 		<!-- Dependency Versions -->
 		<selenium.version>4.43.0</selenium.version>
 		<cucumber.version>7.34.3</cucumber.version>
@@ -26,8 +25,8 @@
 		<webdrivermanager.version>6.3.4</webdrivermanager.version>
 		<jackson.version>2.16.1</jackson.version>
 		<apache.poi.version>5.2.5</apache.poi.version>
-		
-	
+
+
 	</properties>
 
 	<dependencies>
@@ -129,5 +128,78 @@
 				</configuration>
 			</plugin>
 		</plugins>
+
+
 	</build>
+
+	
+	<profiles>
+
+		<!-- Default: mvn test -->
+		<profile>
+			<id>default</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<version>3.2.5</version>
+						<configuration>
+							<suiteXmlFiles>
+								<suiteXmlFile>
+									testng.xml
+								</suiteXmlFile>
+							</suiteXmlFiles>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<!-- Smoke: mvn test -Psmoke -->
+		<profile>
+			<id>smoke</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<version>3.2.5</version>
+						<configuration>
+							<suiteXmlFiles>
+								<suiteXmlFile>
+									testng-smoke.xml
+								</suiteXmlFile>
+							</suiteXmlFiles>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<!-- Regression: mvn test -Pregression -->
+		<profile>
+			<id>regression</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<version>3.2.5</version>
+						<configuration>
+							<suiteXmlFiles>
+								<suiteXmlFile>
+									testng-regression.xml
+								</suiteXmlFile>
+							</suiteXmlFiles>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+	</profiles>
 </project>
