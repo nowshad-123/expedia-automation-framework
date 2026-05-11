@@ -1,18 +1,11 @@
-# MakeMyTrip Flight Booking — Automation Framework
-
 > Industry-level Cucumber + Selenium + Java BDD Framework
 > for MakeMyTrip Flight Booking Module
-
-## Tech Stack
-- Java 21
-- Selenium WebDriver 4.18
-- Cucumber BDD 7.15
-- TestNG 7.9
-- Maven
-- ExtentReports
-- Log4j2
-
 ---
+
+## Status
+✅ **Sprint 1 Complete** — Foundation + Smoke
+✅ **Sprint 2 Complete** — Results Intelligence
+🚧 **Sprint 3 Starting** — Stability + Negative Testing
 
 ## 📌 What Is This Project?
 
@@ -78,14 +71,18 @@ re-renders after tab clicks and page transitions.
 
 | Tag | Scenarios | When to Run |
 |-----|-----------|-------------|
-| `@sanity` | 3 | Every commit — fastest check |
-| `@smoke` | 9 | Every PR merge — all critical paths |
-| `@oneWay` | 4 | After one-way search changes |
-| `@roundTrip` | 4 | After round-trip changes |
-| `@flights` | 8 | After any flight module changes |
-| `@e2e` | 8 | Before release — full flow check |
-| `@regression` | 9 | Full suite — release validation |
-
+| `@sanity` | 4 | Every commit |
+| `@smoke` | 12 | Every PR merge |
+| `@oneWay` | 4 | One way changes |
+| `@roundTrip` | 4 | Round trip changes |
+| `@flights` | 8 | Flight changes |
+| `@results` | 6 | Results page changes |
+| `@filters` | 8 | Filter changes |
+| `@combinedFilter` | 4 | Combined filter changes |
+| `@sort` | 4 | Sort changes |
+| `@dataDriven` | 6 | Data reader changes |
+| `@e2e` | 8 | Release validation |
+| `@regression` | 30 | Full release |
 ---
 
 ## ▶️ How to Run
@@ -165,19 +162,17 @@ mvn test -Dheadless=true
 
 ---
 
-### 🚧 Sprint 2 — Results Intelligence (Days 9–16)
+### ✅ Sprint 2 — Results Intelligence (Days 9–14)
 - [x] Day 9  — FlightCardComponent, Results validation
-- [x] Day 10 — FilterComponent, Airline/Stops/Price filters
-- [x] Day 11 — SortComponent, Cheapest/NonStop/Dropdown sort
+- [x] Day 10 — FilterComponent, Filters automation
+- [x] Day 11 — SortComponent, Sort validation
 - [x] Day 12 — JsonDataReader, ExcelDataReader, DDT
-- [x] Day 13 — Combined filters, PCM refactor, DDT filters
-- [ ] Day 14 — Extended DDT coverage + Sprint 2 hardening
-- [ ] Day 15 — Sprint 2 full regression run
-- [ ] Day 16 — Sprint 2 review + release tag
+- [x] Day 13 — Combined filters, PCM refactor
+- [x] Day 14 — Suite optimization, Sprint 2 review
 ---
 
-### ⏳ Sprint 3 — Stability + Negative Testing (Days 17–22)
-### ⏳ Sprint 4 — Scale + CI/CD + Portfolio (Days 23–28)
+### 🚧 Sprint 3 — Stability + Negative Testing (Days 15–20)
+### ⏳ Sprint 4 — Scale + CI/CD + Portfolio (Days 21–26)
 
 ---
 
