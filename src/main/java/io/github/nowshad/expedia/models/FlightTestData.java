@@ -102,6 +102,11 @@ public class FlightTestData {
         this.airlineName = airlineName;
     }
     
+    public String getExpectedErrMsg() {
+        return expectedError != null
+            ? expectedError : "";
+    }
+    
     
 
     @Override
