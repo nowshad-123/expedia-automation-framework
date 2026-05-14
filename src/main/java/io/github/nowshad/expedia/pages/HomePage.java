@@ -115,17 +115,14 @@ public class HomePage extends BasePage {
 	}
 
 	public HomePage selectOneWay() {
-		// Use retry-safe method instead of plain click
-		// Dismiss spa-classic-peek overlay if present
-	    dismissSpaOverlay();
-		getElementWithRetry(oneWayBtn, WaitStrategy.CLICKABLE).click();
+		
+	    getElementWithRetry(oneWayBtn, WaitStrategy.CLICKABLE).click();
 		logger.info("Selected One Way trip type");
 		return this;
 	}
 
 	public HomePage selectRoundTrip() {
-		// Dismiss spa-classic-peek overlay if present
-	    dismissSpaOverlay();
+		
 		getElementWithRetry(roundTripBtn, WaitStrategy.CLICKABLE).click();
 		logger.info("Selected Round Trip type");
 		return this;

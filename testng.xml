@@ -1,67 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE suite SYSTEM
-    "https://testng.org/testng-1.0.dtd">
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 <suite name="MakeMyTrip Automation Suite"
-       verbose="1">
+	verbose="1">
 
-    <listeners>
-        <listener class-name=
-            "io.github.nowshad.expedia.utilis.RetryListener"/>
-    </listeners>
+	<listeners>
+		<listener class-name="io.github.nowshad.expedia.utilis.RetryListener" />
+	</listeners>
 
-    <!-- ══════════════════════════════════
+	<!-- ══════════════════════════════════
          SPRINT 1 — Foundation + Smoke
     ══════════════════════════════════ -->
-    <test name="Sanity Tests">
-        <classes>
-            <class name=
-                "io.github.nowshad.expedia.runners.SanityRunner"/>
-        </classes>
-    </test>
+	<test name="Sanity Tests">
+		<classes>
+			<class name="io.github.nowshad.expedia.runners.SanityRunner" />
+		</classes>
+	</test>
 
-    <test name="One Way Flight Tests">
-        <classes>
-            <class name=
-                "io.github.nowshad.expedia.runners.FlightSearchRunner"/>
-        </classes>
-    </test>
+	<test name="One Way Flight Tests">
+		<classes>
+			<class name="io.github.nowshad.expedia.runners.FlightSearchRunner" />
+		</classes>
+	</test>
 
-    <test name="Round Trip Flight Tests">
-        <classes>
-            <class name=
-                "io.github.nowshad.expedia.runners.RoundTripRunner"/>
-        </classes>
-    </test>
+	<test name="Round Trip Flight Tests">
+		<classes>
+			<class name="io.github.nowshad.expedia.runners.RoundTripRunner" />
+		</classes>
+	</test>
 
-    <!-- ══════════════════════════════════
+	<!-- ══════════════════════════════════
          SPRINT 2 — Results Intelligence
     ══════════════════════════════════ -->
-    <test name="Search Results Tests">
-        <classes>
-            <class name=
-                "io.github.nowshad.expedia.runners.ResultsRunner"/>
-        </classes>
-    </test>
+	<test name="Search Results Tests">
+		<classes>
+			<class name="io.github.nowshad.expedia.runners.ResultsRunner" />
+		</classes>
+	</test>
 
-    <test name="Filter Tests">
-        <classes>
-            <class name=
-                "io.github.nowshad.expedia.runners.FiltersRunner"/>
-        </classes>
-    </test>
+	<test name="Filter Tests">
+		<classes>
+			<class name="io.github.nowshad.expedia.runners.FiltersRunner" />
+		</classes>
+	</test>
 
-    <test name="Sort Tests">
-        <classes>
-            <class name=
-                "io.github.nowshad.expedia.runners.SortRunner"/>
-        </classes>
-    </test>
+	<test name="Sort Tests">
+		<classes>
+			<class name="io.github.nowshad.expedia.runners.SortRunner" />
+		</classes>
+	</test>
 
-    <test name="Data Driven Tests">
-        <classes>
-            <class name=
-                "io.github.nowshad.expedia.runners.DataDrivenRunner"/>
-        </classes>
-    </test>
+	<test name="Data Driven Tests">
+		<classes>
+			<class name="io.github.nowshad.expedia.runners.DataDrivenRunner" />
+		</classes>
+	</test>
+
+	<!-- ══════════════════════════════════
+     SPRINT 3 — Stability + Negative
+══════════════════════════════════ -->
+	<test name="Negative Tests">
+		<classes>
+			<class
+				name="io.github.nowshad.expedia
+            .runners.NegativeTestRunner" />
+		</classes>
+	</test>
 
 </suite>
