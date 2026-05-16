@@ -94,8 +94,7 @@ public class BasePage {
     	List<WebElement> options = waitForElements(locator);
     	
     	for (WebElement option : options) {
-    		logger.info("---------------------------Destination City: {}", option.getText());
-    	    if (option.getText().contains(city)) {
+    		if (option.getText().contains(city)) {
     	    	logger.info("City Name: ", option.getText());
     	        option.click();
     	        break;

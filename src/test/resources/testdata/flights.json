@@ -73,29 +73,31 @@
     }
   ],
   "negativeTests": [
-    {
-      "testId": "NEG_001",
-      "description": "Same origin and destination",
-      "origin": "Delhi",
-      "destination": "Delhi",
-      "departureDays": 7,
-      "adults": 1,
-      "children": 0,
-      "infants": 0,
-      "travelClass": "Economy",
-      "expectedError": "Origin and destination cannot be same"
-    },
+	{
+	  "testId": "NEG_001",
+	  "description": "Same origin and destination",
+	  "origin": "Delhi",
+	  "destination": "Delhi",
+	  "departureDays": 7,
+	  "returnDays": 0,
+	  "adults": 1,
+	  "children": 0,
+	  "infants": 0,
+	  "travelClass": "Economy",
+	  "expectedError": "From & To airports cannot be the same"
+	},
+	
     {
       "testId": "NEG_002",
       "description": "No results route",
-      "origin": "Delhi",
-      "destination": "Leh",
+      "origin": "Shimla",
+      "destination": "Bengaluru",
       "departureDays": 7,
       "adults": 1,
       "children": 0,
       "infants": 0,
       "travelClass": "Economy",
-      "expectedError": "No flights found"
+      "expectedError": "Sorry, Flights Not Found"
     }
   ],
   "filterScenarios": [

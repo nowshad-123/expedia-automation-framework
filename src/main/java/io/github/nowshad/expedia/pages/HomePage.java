@@ -122,8 +122,7 @@ public class HomePage extends BasePage {
 	}
 
 	public HomePage selectRoundTrip() {
-		// Dismiss spa-classic-peek overlay if present
-	    dismissSpaOverlay();
+		
 		getElementWithRetry(roundTripBtn, WaitStrategy.CLICKABLE).click();
 		logger.info("Selected Round Trip type");
 		return this;
