@@ -1,4 +1,4 @@
-@regression @results @sort @smoke
+@sort
 Feature: Search Results Sort Validation
 
   Background:
@@ -14,25 +14,25 @@ Feature: Search Results Sort Validation
     And the user close popup
     Then the search results page should be displayed
 
-  @sort @cheapest @sanity
+  @smoke
   Scenario: User sorts flights by Cheapest
     When the user sorts by Cheapest
     Then the Cheapest sort tab should be active
     And the first price should be less than or equal to second price
     And at least 1 flight should be visible after sort
 
-  @sort @nonStop
+  @smoke
   Scenario: User sorts by Non Stop First
     When the user sorts by Non Stop First
     Then the Non Stop First sort tab should be active
     And at least 1 flight should be visible after sort
 
-  @sort @earlyDeparture
+  @smoke 
   Scenario: User sorts by Early Departure
     When the user sorts by Early Departure from dropdown
     And at least 1 flight should be visible after sort
 
-  @sort @lateDeparture
+  @smoke
   Scenario: User sorts by Late Departure
     When the user sorts by Late Departure from dropdown
     And at least 1 flight should be visible after sort

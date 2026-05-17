@@ -1,4 +1,4 @@
-@regression @results @filters @combinedFilter
+@filters @combinedFilter
 Feature: Combined Filter Validation
 
   Background:
@@ -13,14 +13,14 @@ Feature: Combined Filter Validation
     And the user clicks on Search button
     Then the search results page should be displayed
 
-  @combinedFilter @nonStop @smoke
+  @sanity @smoke
   Scenario: Apply Non Stop filter then verify results
     Given the user notes the current result count
     When the user applies Non Stop filter
     Then the flight results should be updated
     
 
-  @combinedFilter @multiFilter
+  @smoke
   Scenario: Apply Non Stop and Airline filters together
     Given the user notes the current result count
     When the user applies Non Stop filter
@@ -28,7 +28,7 @@ Feature: Combined Filter Validation
     Then the flight results should be updated
     And the combined filter result count should be greater than 0
 
-  @combinedFilter @clearFilter @smoke
+  @smoke
   Scenario: Clear all filters restores full results
     Given the user notes the current result count
     When the user applies Non Stop filter
@@ -36,7 +36,7 @@ Feature: Combined Filter Validation
     And the user clears all filters
     Then the result count should be restored
 
-  @combinedFilter @oneStop
+  @smoke
   Scenario: Apply One Stop filter then verify results
     Given the user notes the current result count
     When the user applies One Stop filter

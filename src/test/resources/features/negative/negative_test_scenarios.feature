@@ -1,7 +1,7 @@
-@regression @negative
+@negative
 Feature: Negative Test Scenarios
 
-  @negative @sameAirport @sanity
+  @sanity
   Scenario: Same origin and destination shows error
     Given the user is on MakeMyTrip homepage
     When the user closes the login popup if present
@@ -12,7 +12,7 @@ Feature: Negative Test Scenarios
     Then the same airport error should be displayed
     And the error message should contain "From & To airports cannot be the same"
 
-  @negative @noResults @smoke
+  @smoke
   Scenario: Search with no available flights
     Given the user is on MakeMyTrip homepage
     When the user closes the login popup if present
@@ -27,7 +27,6 @@ Feature: Negative Test Scenarios
     And the no flights title should contain "Sorry, Flights Not Found"
     And the go back button should be visible
 
-  @negative @sameAirport @dataDriven
   Scenario: Data driven same airport error NEG_001
     Given the flight data is loaded from JSON for testId "NEG_001"
     And the user is on MakeMyTrip homepage
@@ -39,7 +38,6 @@ Feature: Negative Test Scenarios
     Then the same airport error should be displayed
     And the error text should match expected from test data
 
-  @negative @noResults @dataDriven
   Scenario: Data driven no results route NEG_002
     Given the flight data is loaded from JSON for testId "NEG_002"
     And the user is on MakeMyTrip homepage

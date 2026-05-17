@@ -1,7 +1,7 @@
-@regression @results @filters @dataDriven
+@filters @dataDriven
 Feature: Data Driven Filter Scenarios
 
-  @dataDriven @filters @nonStop
+  @smoke
   Scenario: Data driven non stop filter FILTER_001
     Given the flight data is loaded from JSON for testId "FILTER_001"
     And the user is on MakeMyTrip homepage
@@ -17,7 +17,7 @@ Feature: Data Driven Filter Scenarios
     And the user applies filter from test data
     And the flight results should be updated
 
-  @dataDriven @filters @airline
+
   Scenario: Data driven airline filter FILTER_002
     Given the flight data is loaded from JSON for testId "FILTER_002"
     And the user is on MakeMyTrip homepage

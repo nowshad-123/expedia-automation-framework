@@ -1,7 +1,7 @@
-@regression @sanity
+@sanity
 Feature: Framework Sanity Check
 
-  @sanity @smoke
+  
   Scenario: Browser launches and MakeMyTrip homepage loads
     Given the browser is open and homepage is loaded
     Then the page title should contain "MakeMyTrip"

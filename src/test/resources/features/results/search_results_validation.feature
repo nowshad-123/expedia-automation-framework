@@ -1,4 +1,4 @@
-@regression @results @smoke
+@result
 Feature: Search Results Validation
 
   Background:
@@ -12,20 +12,20 @@ Feature: Search Results Validation
     And the user selects 1 adults 0 children 0 infants in Economy class
     And the user clicks on Search button
 
-  @sanity @results
+  @smoke @sanity
   Scenario: Search results page loads with flight cards
     Then the search results page should be displayed
     And the results page should have at least 1 flight
     And all flights should have valid prices
     And all flights should have airline names
 
-  @results
+  @smoke
   Scenario: Search URL contains correct route details
     Then the search results page should be displayed
     And the search URL should contain "DEL" and "BOM"
     And the search URL should contain trip type "O"
 
-  @results
+  @smoke
   Scenario: First flight card has complete information
     Then the search results page should be displayed
     And the first flight price should be greater than 0
