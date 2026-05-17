@@ -9,7 +9,9 @@ import io.cucumber.testng.CucumberOptions;
         "io.github.nowshad.expedia.hooks",
         "io.github.nowshad.expedia.stepDefinitions"
     },
-    tags = "@regression",
+    tags = "@flights or @results or @filters " +
+    	       "or @sort or @dataDriven or @negative " +
+    	       "or @sanity",
     plugin = {
         "pretty",
         "html:reports/regression-report.html",

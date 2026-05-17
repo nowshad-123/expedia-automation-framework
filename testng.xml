@@ -61,8 +61,7 @@
 	<test name="Negative Tests">
 		<classes>
 			<class
-				name="io.github.nowshad.expedia
-            .runners.NegativeTestRunner" />
+				name="io.github.nowshad.expedia.runners.NegativeTestRunner" />
 		</classes>
 	</test>
 

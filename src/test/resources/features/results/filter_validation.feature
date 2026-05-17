@@ -1,4 +1,4 @@
-@regression @results @filters @smoke
+@filters
 Feature: Search Results Filter Validation
 
   Background:
@@ -13,25 +13,25 @@ Feature: Search Results Filter Validation
     And the user clicks on Search button
     Then the search results page should be displayed
 
-  @filters @nonStop
+  @smoke
   Scenario: User filters flights by Non Stop
     Given the user notes the current result count
     When the user applies Non Stop filter
     Then the flight results should be updated
 
-  @filters @oneStop
+  @smoke
   Scenario: User filters flights by One Stop
     Given the user notes the current result count
     When the user applies One Stop filter
     Then the flight results should be updated
 
-  @filters @airline
+  @smoke
   Scenario: User filters by specific airline
     Given the user notes the current result count
     When the user filters by airline "IndiGo"
     Then the flight results should be updated
 
-  @filters @clearFilter
+  @smoke
   Scenario: User clears all applied filters
     When the user applies Non Stop filter
     And the user clears all filters
