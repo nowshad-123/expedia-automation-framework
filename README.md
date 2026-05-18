@@ -1,6 +1,7 @@
 > Industry-level Cucumber + Selenium + Java BDD Framework
 > for MakeMyTrip Flight Booking Module
 ---
+[![MakeMyTrip Automation Suite](https://github.com/nowshad-123/expedia-automation-framework/actions/workflows/automation.yml/badge.svg)](https://github.com/nowshad-123/expedia-automation-framework/actions/workflows/automation.yml)
 
 ## Status
 ✅ **Sprint 1 Complete** — Foundation + Smoke
