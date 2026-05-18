@@ -25,7 +25,7 @@ public class Hooks {
         logger.info("Navigated to base URL: {}", ConfigReader.get("base.url"));
     }
     @After
-    public void tearDown(Scenario scenario) {
+    public void tearDown(Scenario scenario) throws Exception {
         if (scenario.isFailed()) {
             logger.error("Scenario FAILED: {}", scenario.getName());
             takeScreenshot(scenario);
@@ -33,6 +33,8 @@ public class Hooks {
             logger.info("Scenario PASSED: {}", scenario.getName());
         }
         DriverManager.quitDriver();
+        
+        Thread.sleep(5000);
     }
 
     private void takeScreenshot(Scenario scenario) {
