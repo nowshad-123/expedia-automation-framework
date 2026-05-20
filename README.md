@@ -13,6 +13,7 @@
 ![Maven](https://img.shields.io/badge/Maven-3.x-blue)
 ![Firefox](https://img.shields.io/badge/Browser-Firefox-orange)
 ---
+[![MakeMyTrip Automation Suite](https://github.com/nowshad-123/expedia-automation-framework/actions/workflows/automation.yml/badge.svg)](https://github.com/nowshad-123/expedia-automation-framework/actions/workflows/automation.yml)
 
 ## What This Project Demonstrates
 
