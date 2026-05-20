@@ -2,6 +2,7 @@ package io.github.nowshad.expedia.driver;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -9,6 +10,7 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.firefox.FirefoxProfile;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import io.github.nowshad.expedia.config.ConfigReader;
@@ -81,13 +83,26 @@ public class DriverFactory {
     logger.info("ChromeDriver created successfully");
     return driver;
 }
+    
     private static WebDriver createFirefoxDriver(boolean headless) {
         WebDriverManager.firefoxdriver().setup();
+        
         FirefoxOptions options = new FirefoxOptions();
+        FirefoxProfile profile = new FirefoxProfile();
+
+        profile.setPreference("network.trr.mode", 5);
+        profile.setPreference("network.http.http2.enabled", false);
+        profile.setPreference("security.enterprise_roots.enabled", true);
+        profile.setPreference("dom.webdriver.enabled", false);
+
+        options.setProfile(profile);
+        
+        
         if (headless) options.addArguments("--headless");
         logger.info("FirefoxDriver created successfully");
         return new FirefoxDriver(options);
     }
+    
 
     private static WebDriver createEdgeDriver(boolean headless) {
         WebDriverManager.edgedriver().setup();

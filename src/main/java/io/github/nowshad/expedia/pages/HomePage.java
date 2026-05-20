@@ -108,6 +108,7 @@ public class HomePage extends BasePage {
 
 	    // Common post-condition
 	    waitForPageLoad();
+	    dismissSpaOverlay(); 
 	    waitForElement(oneWayBtn, WaitStrategy.VISIBLE);
 	    logger.info("Flight search form is ready");
 
@@ -115,14 +116,14 @@ public class HomePage extends BasePage {
 	}
 
 	public HomePage selectOneWay() {
-		
+		dismissSpaOverlay(); 
 	    getElementWithRetry(oneWayBtn, WaitStrategy.CLICKABLE).click();
 		logger.info("Selected One Way trip type");
 		return this;
 	}
 
 	public HomePage selectRoundTrip() {
-		
+		dismissSpaOverlay(); 
 		getElementWithRetry(roundTripBtn, WaitStrategy.CLICKABLE).click();
 		logger.info("Selected Round Trip type");
 		return this;
@@ -227,7 +228,17 @@ public class HomePage extends BasePage {
 	}
 
 	public boolean isHomePageLoaded() {
-		return isDisplayed(oneWayBtn);
+	    try {
+	        waitForPageLoad();
+	        // Use getElementWithRetry — stale safe
+	        getElementWithRetry(oneWayBtn,
+	            WaitStrategy.VISIBLE);
+	        return true;
+	    } catch (Exception e) {
+	        logger.warn("Homepage not loaded: {}",
+	            e.getMessage());
+	        return false;
+	    }
 	}
 
 	// ─────────────────────────────────────────

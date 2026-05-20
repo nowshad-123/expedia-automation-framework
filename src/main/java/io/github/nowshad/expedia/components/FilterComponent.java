@@ -28,7 +28,7 @@ public class FilterComponent extends BasePage {
 	// Specific airline by name
 	// Usage: airlineByName("IndiGo")
 	private By airlineByName(String name) {
-		return By.xpath("//*[contains(text(),'"+name+"')]/ancestor::label");
+		return By.xpath("//*[contains(text(),'" + name + "')]/ancestor::label");
 	}
 
 	private final By stopSection = By.xpath("//*[normalize-space()='Stops']");
@@ -41,7 +41,7 @@ public class FilterComponent extends BasePage {
 	// One Stop checkbox — confirmed locator
 	private final By oneStopCheckbox = By.xpath("(//p[@class='checkboxTitle'][normalize-space()='1 Stop'])[2]");
 
-	private final By oneStopCheckboxFallback = By.xpath("//*[contains(text(), '1 Stop')]");	
+	private final By oneStopCheckboxFallback = By.xpath("//*[contains(text(), '1 Stop')]");
 
 	// Price slider container
 	private final By priceSlider = By
@@ -141,22 +141,23 @@ public class FilterComponent extends BasePage {
 
 	private void applyStopsFilter(By checkboxLocator, String label) {
 		try {
+			// Scroll to checkbox directly
+			// NOT to a 'Stops' text header
+			scrollIntoView(checkboxLocator);
 
-			WebElement checkbox = waitForElement(checkboxLocator, WaitStrategy.PRESENCE);
-	
+			WebElement checkbox = waitForElement(checkboxLocator, WaitStrategy.CLICKABLE);
 
 			if (!checkbox.isSelected()) {
-				click(checkboxLocator);
+				jsClick(checkboxLocator);
 				logger.info("{} filter applied", label);
 			} else {
 				logger.info("{} already selected", label);
 			}
-
-			waitForResultsToUpdate();
+			waitForDomUpdate();
 
 		} catch (Exception e) {
-			logger.error("Failed to apply {} filter: {}", label, e.getMessage());
-			throw new RuntimeException("Could not apply filter: " + label, e);
+			logger.error("Filter {} failed: {}", label, e.getMessage());
+			throw new RuntimeException("Could not apply: " + label, e);
 		}
 	}
 
@@ -255,42 +256,35 @@ public class FilterComponent extends BasePage {
 		logger.info("Results before: {} | after: {} | " + "changed: {}", beforeCount, afterCount, changed);
 		return changed;
 	}
-	
-	
+
 	/**
 	 * Returns true if Non Stop checkbox is selected.
 	 */
 	public boolean isNonStopSelected() {
-	    try {
-	        WebElement checkbox =
-	            waitForElement(nonStopCheckbox,
-	                WaitStrategy.PRESENCE);
-	        boolean selected = checkbox.isDisplayed();
-	        logger.info("NonStop selected: {}", selected);
-	        return selected;
-	    } catch (Exception e) {
-	        logger.warn("Could not check NonStop state: {}",
-	            e.getMessage());
-	        return false;
-	    }
+		try {
+			WebElement checkbox = waitForElement(nonStopCheckbox, WaitStrategy.PRESENCE);
+			boolean selected = checkbox.isDisplayed();
+			logger.info("NonStop selected: {}", selected);
+			return selected;
+		} catch (Exception e) {
+			logger.warn("Could not check NonStop state: {}", e.getMessage());
+			return false;
+		}
 	}
 
 	/**
 	 * Returns true if One Stop checkbox is selected.
 	 */
 	public boolean isOneStopSelected() {
-	    try {
-	        WebElement checkbox =
-	            waitForElement(oneStopCheckbox,
-	                WaitStrategy.PRESENCE);
-	        boolean selected = checkbox.isSelected();
-	        logger.info("OneStop selected: {}", selected);
-	        return selected;
-	    } catch (Exception e) {
-	        logger.warn("Could not check OneStop state: {}",
-	            e.getMessage());
-	        return false;
-	    }
+		try {
+			WebElement checkbox = waitForElement(oneStopCheckbox, WaitStrategy.PRESENCE);
+			boolean selected = checkbox.isSelected();
+			logger.info("OneStop selected: {}", selected);
+			return selected;
+		} catch (Exception e) {
+			logger.warn("Could not check OneStop state: {}", e.getMessage());
+			return false;
+		}
 	}
 
 	// ─────────────────────────────────────────

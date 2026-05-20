@@ -36,22 +36,13 @@ public class FlightCardComponent extends BasePage {
         " and contains(@class,'blackFont')]"
     );
 
-    // Departure time — first time element in card
-    private final By departureTimeLocator = By.xpath(
-        ".//div[contains(@class,'time-info')]" +
-        "//span[contains(@class,'time')]"
-    );
+    
+    
 
     // Number of stops inside card
     private final By stopsLocator = By.xpath(
         ".//div[contains(@class,'stop-info')]" +
         " | .//span[contains(@class,'stop')]"
-    );
-
-    // Duration inside card
-    private final By durationLocator = By.xpath(
-        ".//div[contains(@class,'layover')]" +
-        " | .//span[contains(@class,'duration')]"
     );
 
     // ─────────────────────────────────────────
@@ -64,6 +55,7 @@ public class FlightCardComponent extends BasePage {
      * MMT shows 3-4 cards on first load.
      */
     public int getFlightCardCount() {
+    	
         try {
             List<WebElement> cards =
                getDriver().findElements(airlineNameLocator);
