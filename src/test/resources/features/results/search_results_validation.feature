@@ -6,8 +6,8 @@ Feature: Search Results Validation
     When the user closes the login popup if present
     And the user clicks on Flights tab
     And the user selects One Way trip
-    And the user enters origin city as "Delhi"
-    And the user enters destination city as "Mumbai"
+    And the user enters origin city as "Hyderabad"
+    And the user enters destination city as "Bengaluru"
     And the user selects departure date as 7 days from today
     And the user selects 1 adults 0 children 0 infants in Economy class
     And the user clicks on Search button
@@ -20,14 +20,17 @@ Feature: Search Results Validation
     And all flights should have airline names
 
   @smoke
-  Scenario: Search URL contains correct route details
-    Then the search results page should be displayed
-    And the search URL should contain "DEL" and "BOM"
-    And the search URL should contain trip type "O"
+  Scenario: User sorts by Non Stop First
+    When the user sorts by Non Stop First
+    Then the Non Stop First sort tab should be active
+    And at least 1 flight should be visible after sort
 
   @smoke
-  Scenario: First flight card has complete information
-    Then the search results page should be displayed
-    And the first flight price should be greater than 0
-    And the first flight should have an airline name
-    And no results message should not be displayed
+  Scenario: User sorts by Early Departure
+    When the user sorts by Early Departure from dropdown
+    And at least 1 flight should be visible after sort
+
+  @smoke
+  Scenario: User sorts by Late Departure
+    When the user sorts by Late Departure from dropdown
+    And at least 1 flight should be visible after sort

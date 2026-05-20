@@ -66,12 +66,7 @@ public class SortComponent extends BasePage {
         "//li[normalize-space()='Late Arrival']"
     );
 
-    // Active sort tab — class "active" added
-    // when tab is selected
-    private final By activeTab = By.xpath(
-        "//div[contains(@class,'sortTabHeadList')" +
-        " and contains(@class,'active')]"
-    );
+    
 
     // Price elements — confirmed count: 2
     // Format: ₹ 7,875

@@ -1,319 +1,327 @@
 package io.github.nowshad.expedia.pages;
 
+import java.time.Duration;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import io.github.nowshad.expedia.components.FilterComponent;
 import io.github.nowshad.expedia.components.FlightCardComponent;
 import io.github.nowshad.expedia.components.SortComponent;
-import io.github.nowshad.expedia.enums.WaitStrategy;
 
 public class SearchResultsPage extends BasePage {
 
-    private static final Logger logger =
-        LogManager.getLogger(SearchResultsPage.class);
+	private static final Logger logger = LogManager.getLogger(SearchResultsPage.class);
 
-    // Delegate card operations to component
-    private final FlightCardComponent flightCards =
-        new FlightCardComponent();
+	// Delegate card operations to component
+	private final FlightCardComponent flightCards = new FlightCardComponent();
 
-    private final FilterComponent filterComponent =
-    	    new FilterComponent();
-    
-    private final SortComponent sortComponent =
-    	    new SortComponent();
-    // ─────────────────────────────────────────
-    //  LOCATORS — confirmed from DevTools
-    // ─────────────────────────────────────────
+	private final FilterComponent filterComponent = new FilterComponent();
 
-    private final By resultsContainer = By.xpath(
-        "//div[contains(@class,'appendBottom5')]"
-    );
+	private final SortComponent sortComponent = new SortComponent();
+	// ─────────────────────────────────────────
+	// LOCATORS — confirmed from DevTools
+	// ─────────────────────────────────────────
 
-    private final By loadingSpinner = By.xpath(
-        "//div[contains(@class,'loading')]" +
-        " | //div[contains(@class,'spinner')]"
-    );
+	private final By resultsContainer = By.xpath("//div[contains(@data-testid, 'virtuoso-item-list')]");
 
-    private final By noResultsMessage = By.xpath(
-        "//*[contains(text(),'No flights')]" +
-        " | //*[contains(@class,'noResult')]"
-    );
+	private final By loadingSpinner = By.xpath("//div[contains(@class,'loading')]");
 
-    private final By filterSection = By.xpath(
-        "//div[contains(@class,'filter')]"
-    );
+	private final By noResultsMessage = By
+			.xpath("//*[contains(text(),'No flights')]" + " | //*[contains(@class,'noResult')]");
 
-    // ─────────────────────────────────────────
-    //  PAGE LOAD VERIFICATION
-    // ─────────────────────────────────────────
+	private final By filterSection = By.xpath("//div[contains(@class,'filter')]");
 
-    /**
-     * Verifies results page loaded.
-     * Checks URL contains flight search params.
-     */
-    public boolean isResultsPageLoaded() {
-        String url = getCurrentUrl();
-        logger.info("Results URL: {}", url);
-        return url.contains("flight") &&
-               url.contains("search");
-    }
+	// ─────────────────────────────────────────
+	// PAGE LOAD VERIFICATION
+	// ─────────────────────────────────────────
 
-    /**
-     * Waits for results to fully load.
-     * Handles spinner then waits for cards.
-     */
-    public SearchResultsPage waitForResultsToLoad() {
-        logger.info("Waiting for results to load...");
-        waitForPageLoad();
+	/**
+	 * Verifies results page loaded. Checks URL contains flight search params.
+	 */
+	public boolean isResultsPageLoaded() {
+		String url = getCurrentUrl();
+		logger.info("Results URL: {}", url);
+		return url.contains("flight") && url.contains("search");
+	}
 
-        // Wait for spinner to appear and pass
-        try {
-            waitForElement(loadingSpinner,
-                WaitStrategy.VISIBLE);
-            logger.info("Spinner detected — waiting...");
-        } catch (Exception e) {
-            logger.info("No spinner detected");
-        }
+	/**
+	 * Waits for results to fully load. Handles spinner then waits for cards.
+	 * Refreshes page once if loading gets stuck.
+	 */
+	public SearchResultsPage waitForResultsToLoad() {
+		logger.info("Waiting for results to load...");
 
-        // Wait for flight cards to appear
-        try {
-            waitForElement(resultsContainer,
-                WaitStrategy.VISIBLE);
-            logger.info("Flight cards visible");
-        } catch (Exception e) {
-            logger.warn("Cards not found — URL: {}",
-                getCurrentUrl());
-        }
-        return this;
-    }
+		// Strategy 1: Wait for flight cards directly
+		// Skip spinner — it may never disappear if
+		// MMT blocks the search API call
+		By flightCards = By.xpath("//div[contains(@data-testid," + "'virtuoso-item-list')]"
+				+ " | //div[contains(@class,'appendBottom5')]");
 
-    /**
-     * Verifies URL contains correct IATA codes.
-     */
-    public boolean isCorrectRoute(
-            String originCode, String destCode) {
-        String url = getCurrentUrl();
-        boolean correct =
-            url.contains(originCode) &&
-            url.contains(destCode);
-        logger.info("Route {}-{} in URL: {}",
-            originCode, destCode, correct);
-        return correct;
-    }
+		// Strategy 2: Fallback locators
+		By anyResult = By.xpath("//div[contains(@class,'listingCard')]" + " | //div[contains(@class,'airlineRow')]"
+				+ " | //p[@class='error-title']");
 
-    // ─────────────────────────────────────────
-    //  RESULTS VALIDATION
-    // ─────────────────────────────────────────
+		waitForPageLoad();
 
-    /**
-     * Returns count of visible flight cards.
-     * MMT loads 3-4 cards on first load.
-     */
-    public int getResultCount() {
-        int count = flightCards.getFlightCardCount();
-        logger.info("Total flight cards: {}", count);
-        return count;
-    }
+		// Try up to 2 times with page refresh
+		for (int attempt = 1; attempt <= 2; attempt++) {
+			try {
+				logger.info("Results load attempt: {}", attempt);
 
-    /**
-     * Verifies at least 1 result present.
-     */
-    public boolean hasResults() {
-        int count = getResultCount();
-        logger.info("Has results: {}", count > 0);
-        return count > 0;
-    }
+				// Wait max 15 seconds for cards
+				new WebDriverWait(getDriver(), Duration.ofSeconds(15))
+						.until(ExpectedConditions.or(ExpectedConditions.presenceOfElementLocated(flightCards),
+								ExpectedConditions.presenceOfElementLocated(anyResult)));
 
-    /**
-     * Validates all cards have valid prices.
-     */
-    public boolean allResultsHaveValidPrices() {
-        return flightCards.allCardsHaveValidPrices();
-    }
+				logger.info("Results loaded ✅");
+				return this;
 
-    /**
-     * Validates all cards have airline names.
-     */
-    public boolean allResultsHaveAirlineNames() {
-        return flightCards.allCardsHaveAirlineNames();
-    }
+			} catch (Exception e) {
+				logger.warn("Attempt {} failed: {}", attempt, e.getMessage());
 
-    /**
-     * Returns numeric price of first card.
-     */
-    public int getFirstFlightPrice() {
-        return flightCards.getNumericPrice(0);
-    }
+				if (attempt < 2) {
+					logger.info("Refreshing page...");
+					getDriver().navigate().refresh();
+					waitForPageLoad();
 
-    /**
-     * Returns airline name of first card.
-     */
-    public String getFirstFlightAirline() {
-        return flightCards.getAirlineNameByIndex(0);
-    }
+					// Wait after refresh
+					try {
+						Thread.sleep(3000);
+					} catch (InterruptedException ex) {
+						Thread.currentThread().interrupt();
+					}
+				}
+			}
+		}
 
-    /**
-     * Returns stops info of first card.
-     * Fixed: was getStopsInfo → getStopsByIndex
-     */
-    public String getFirstFlightStops() {
-        return flightCards.getStopsByIndex(0);
-    }
+		// Check if no-results page showed instead
+		if (isDisplayed(By.xpath("//p[@class='error-title']"))) {
+			logger.info("No results page shown");
+			return this;
+		}
 
-    /**
-     * Verifies no-results message absent.
-     */
-    public boolean isNoResultsMessageAbsent() {
-        boolean absent = !isDisplayed(noResultsMessage);
-        logger.info("No-results message absent: {}",
-            absent);
-        return absent;
-    }
+		logger.error("Results never loaded — " + "possible MMT rate limiting");
+		return this;
+	}
 
-    /**
-     * Returns full URL for assertions.
-     */
-    public String getSearchUrl() {
-        return getCurrentUrl();
-    }
+	/**
+	 * Verifies URL contains correct IATA codes.
+	 */
+	public boolean isCorrectRoute(String originCode, String destCode) {
+		String url = getCurrentUrl();
+		boolean correct = url.contains(originCode) && url.contains(destCode);
+		logger.info("Route {}-{} in URL: {}", originCode, destCode, correct);
+		return correct;
+	}
 
-    /**
-     * Verifies filter panel is visible.
-     */
-    public boolean isFilterSectionVisible() {
-        return isDisplayed(filterSection);
-    }
-    
-   
+	// ─────────────────────────────────────────
+	// RESULTS VALIDATION
+	// ─────────────────────────────────────────
 
-    /**
-     * Returns FilterComponent for filter operations.
-     */
-    public FilterComponent filters() {
-        return filterComponent;
-    }
+	/**
+	 * Returns count of visible flight cards. MMT loads 3-4 cards on first load.
+	 */
+	public int getResultCount() {
+		int count = flightCards.getFlightCardCount();
+		logger.info("Total flight cards: {}", count);
+		return count;
+	}
 
-    /**
-     * Returns current flight card count.
-     * Used to verify filter changed results.
-     */
-    public int getCurrentResultCount() {
-        return filterComponent.getCurrentResultCount();
-    }
+	/**
+	 * Verifies at least 1 result present.
+	 */
+	public boolean hasResults() {
+		int count = getResultCount();
+		logger.info("Has results: {}", count > 0);
+		return count > 0;
+	}
 
-    /**
-     * Selects non stop filter directly from page.
-     */
-    public SearchResultsPage filterByNonStop() {
-        filterComponent.selectNonStop();
-        return this;
-    }
+	/**
+	 * Validates all cards have valid prices.
+	 */
+	public boolean allResultsHaveValidPrices() {
+		return flightCards.allCardsHaveValidPrices();
+	}
 
-    /**
-     * Selects one stop filter directly from page.
-     */
-    public SearchResultsPage filterByOneStop() {
-        filterComponent.selectOneStop();
-        return this;
-    }
+	/**
+	 * Validates all cards have airline names.
+	 */
+	public boolean allResultsHaveAirlineNames() {
+		return flightCards.allCardsHaveAirlineNames();
+	}
 
-    /**
-     * Filters by specific airline name.
-     */
-    public SearchResultsPage filterByAirline(String airlineName) {
-        filterComponent.selectAirline(airlineName);
-        return this;
-    }
+	/**
+	 * Returns numeric price of first card.
+	 */
+	public int getFirstFlightPrice() {
+		return flightCards.getNumericPrice(0);
+	}
 
-    /**
-     * Clears all applied filters.
-     */
-    public SearchResultsPage clearAllFilters() {
-        filterComponent.clearAllFilters();
-        return this;
-    }
-    
+	/**
+	 * Returns airline name of first card.
+	 */
+	public String getFirstFlightAirline() {
+		return flightCards.getAirlineNameByIndex(0);
+	}
 
-    /**
-     * Returns SortComponent for sort operations.
-     */
-    public SortComponent sort() {
-        return sortComponent;
-    }
+	/**
+	 * Returns stops info of first card. Fixed: was getStopsInfo → getStopsByIndex
+	 */
+	public String getFirstFlightStops() {
+		return flightCards.getStopsByIndex(0);
+	}
 
-    /**
-     * Sorts results by Cheapest.
-     */
-    public SearchResultsPage sortByCheapest() {
-        sortComponent.sortByCheapest();
-        return this;
-    }
+	/**
+	 * Verifies no-results message absent.
+	 */
+	public boolean isNoResultsMessageAbsent() {
+		boolean absent = !isDisplayed(noResultsMessage);
+		logger.info("No-results message absent: {}", absent);
+		return absent;
+	}
 
-    /**
-     * Sorts by Non Stop First.
-     */
-    public SearchResultsPage sortByNonStopFirst() {
-        sortComponent.sortByNonStopFirst();
-        return this;
-    }
+	/**
+	 * Returns full URL for assertions.
+	 */
+	public String getSearchUrl() {
+		return getCurrentUrl();
+	}
 
-    /**
-     * Sorts by Early Departure.
-     */
-    public SearchResultsPage sortByEarlyDeparture() {
-        sortComponent.sortByEarlyDeparture();
-        return this;
-    }
+	/**
+	 * Verifies filter panel is visible.
+	 */
+	public boolean isFilterSectionVisible() {
+		return isDisplayed(filterSection);
+	}
 
-    /**
-     * Sorts by Late Departure.
-     */
-    public SearchResultsPage sortByLateDeparture() {
-        sortComponent.sortByLateDeparture();
-        return this;
-    }
+	/**
+	 * Returns FilterComponent for filter operations.
+	 */
+	public FilterComponent filters() {
+		return filterComponent;
+	}
 
-    /**
-     * Verifies prices sorted Low to High.
-     */
-    public boolean arePricesSortedLowToHigh() {
-        return sortComponent.arePricesSortedLowToHigh();
-    }
+	/**
+	 * Returns current flight card count. Used to verify filter changed results.
+	 */
+	public int getCurrentResultCount() {
+		return filterComponent.getCurrentResultCount();
+	}
 
-    /**
-     * Returns first flight price after sort.
-     */
-    public int getFirstFlightPriceAfterSort() {
-        return sortComponent.getFirstFlightPrice();
-    }
+	/**
+	 * Selects non stop filter directly from page.
+	 */
+	public SearchResultsPage filterByNonStop() {
+		filterComponent.selectNonStop();
+		return this;
+	}
 
-    /**
-     * Returns second flight price after sort.
-     */
-    public int getSecondFlightPriceAfterSort() {
-        return sortComponent.getSecondFlightPrice();
-    }
+	/**
+	 * Selects one stop filter directly from page.
+	 */
+	public SearchResultsPage filterByOneStop() {
+		filterComponent.selectOneStop();
+		return this;
+	}
 
-    /**
-     * Verifies sort tab is active.
-     */
-    public boolean isSortActive(String tabName) {
-        return sortComponent.isSortTabActive(tabName);
-    }
-    
-    /**
-     * Verifies Non Stop filter checkbox is selected.
-     */
-    public boolean isNonStopFilterActive() {
-        return filterComponent.isNonStopSelected();
-    }
+	/**
+	 * Filters by specific airline name.
+	 */
+	public SearchResultsPage filterByAirline(String airlineName) {
+		filterComponent.selectAirline(airlineName);
+		return this;
+	}
 
-    /**
-     * Verifies One Stop filter checkbox is selected.
-     */
-    public boolean isOneStopFilterActive() {
-        return filterComponent.isOneStopSelected();
-    }
+	/**
+	 * Clears all applied filters.
+	 */
+	public SearchResultsPage clearAllFilters() {
+		filterComponent.clearAllFilters();
+		return this;
+	}
+
+	/**
+	 * Returns SortComponent for sort operations.
+	 */
+	public SortComponent sort() {
+		return sortComponent;
+	}
+
+	/**
+	 * Sorts results by Cheapest.
+	 */
+	public SearchResultsPage sortByCheapest() {
+		sortComponent.sortByCheapest();
+		return this;
+	}
+
+	/**
+	 * Sorts by Non Stop First.
+	 */
+	public SearchResultsPage sortByNonStopFirst() {
+		sortComponent.sortByNonStopFirst();
+		return this;
+	}
+
+	/**
+	 * Sorts by Early Departure.
+	 */
+	public SearchResultsPage sortByEarlyDeparture() {
+		sortComponent.sortByEarlyDeparture();
+		return this;
+	}
+
+	/**
+	 * Sorts by Late Departure.
+	 */
+	public SearchResultsPage sortByLateDeparture() {
+		sortComponent.sortByLateDeparture();
+		return this;
+	}
+
+	/**
+	 * Verifies prices sorted Low to High.
+	 */
+	public boolean arePricesSortedLowToHigh() {
+		return sortComponent.arePricesSortedLowToHigh();
+	}
+
+	/**
+	 * Returns first flight price after sort.
+	 */
+	public int getFirstFlightPriceAfterSort() {
+		return sortComponent.getFirstFlightPrice();
+	}
+
+	/**
+	 * Returns second flight price after sort.
+	 */
+	public int getSecondFlightPriceAfterSort() {
+		return sortComponent.getSecondFlightPrice();
+	}
+
+	/**
+	 * Verifies sort tab is active.
+	 */
+	public boolean isSortActive(String tabName) {
+		return sortComponent.isSortTabActive(tabName);
+	}
+
+	/**
+	 * Verifies Non Stop filter checkbox is selected.
+	 */
+	public boolean isNonStopFilterActive() {
+		return filterComponent.isNonStopSelected();
+	}
+
+	/**
+	 * Verifies One Stop filter checkbox is selected.
+	 */
+	public boolean isOneStopFilterActive() {
+		return filterComponent.isOneStopSelected();
+	}
 }

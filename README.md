@@ -3,9 +3,10 @@
 ---
 
 ## Status
-✅ **Sprint 1 Complete** — Foundation + Smoke
-✅ **Sprint 2 Complete** — Results Intelligence
-🚧 **Sprint 3 Starting** — Stability + Negative Testing
+✅ Sprint 1 Complete — Foundation + Smoke <br>
+✅ Sprint 2 Complete — Results Intelligence <br>
+✅ Sprint 3 Complete — Stability + Negative <br>
+🚧 Sprint 4 In Progress — Scale + CI/CD <br>
 
 ## 📌 What Is This Project?
 
@@ -84,6 +85,24 @@ re-renders after tab clicks and page transitions.
 | `@e2e` | 8 | Release validation |
 | `@regression` | 30 | Full release |
 ---
+## Known Limitation
+
+MakeMyTrip production uses Akamai Bot Manager
+enterprise protection. Running more than 7-8
+sequential automated browser sessions against
+production triggers IP-level connection resets.
+
+This mirrors real-world constraints where
+automation teams test against:
+  - Staging/QA environments (not production)
+  - Whitelisted IP ranges
+  - Mock backends for UI testing
+
+For this portfolio project:
+  - Individual tag suites run successfully
+  - Full regression run in batches
+  - CI/CD pipeline runs @sanity tag only
+
 
 ## ▶️ How to Run
 
@@ -171,9 +190,15 @@ mvn test -Dheadless=true
 - [x] Day 14 — Suite optimization, Sprint 2 review
 ---
 
-### 🚧 Sprint 3 — Stability + Negative Testing (Days 15–20)
-### ⏳ Sprint 4 — Scale + CI/CD + Portfolio (Days 21–26)
+### 🚧 Sprint 3 — Stability + Negative Testing (Days 15–16)
 
+### ⏳ Sprint 4 — Scale + CI/CD + Portfolio (Days 17–22)
+- [x] Day 17 — Parallel architecture (ThreadLocal)
+- [x] Day 18 — GitHub Actions CI/CD pipeline
+- [ ] Day 19 — ExtentReports with screenshots
+- [ ] Day 20 — Cross browser testing
+- [ ] Day 21 — Final README + portfolio polish
+- [ ] Day 22 — Sprint 4 review + v4.0 tag
 ---
 
 ## 🐛 Bug Fixes Log
@@ -188,7 +213,35 @@ mvn test -Dheadless=true
 | Day 7 | DuplicateStepDefinitionException | Same step in multiple classes | Extracted all shared steps to CommonStepDefs |
 
 ---
+## CI/CD Pipeline
 
+[![CI](https://github.com/nowshad-123/expedia-automation-framework/actions/workflows/automation.yml/badge.svg)](https://github.com/nowshad-123/expedia-automation-framework/actions)
+
+Automated pipeline runs on every push:
+- Triggers on push to main and develop
+- Runs @sanity suite in headless Firefox
+- Uploads test reports as GitHub artifacts
+- Manual trigger supports any tag
+
+### Pipeline Steps
+1. Provision Ubuntu VM
+2. Install Java 21 + Firefox
+3. Run sanity tests headless
+4. Upload reports + screenshots
+
+### Local Full Suite Execution
+Due to MakeMyTrip's production bot protection,
+full regression runs locally in batches:
+
+```bash
+# Windows
+run_suite.bat
+
+# Linux/Mac
+./run_suite.sh
+```
+
+---
 ## 📁 Reports
 
 After running tests, reports are generated at:

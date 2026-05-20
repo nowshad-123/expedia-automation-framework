@@ -28,14 +28,24 @@ public class ConfigReader {
         }
     }
 
-    public static String get(String key) {
-        String value = properties.getProperty(key);
-        if (value == null) {
-            logger.warn("Property '{}' not found in config.properties", key);
-        }
-        return value;
+   public static String get(String key) {
+    // Check system property first
+    // Allows -Dkey=value override from CLI and CI
+    String sysProp = System.getProperty(key);
+    if (sysProp != null && !sysProp.isEmpty()) {
+        logger.info("Using system property " +
+            "for key '{}': {}", key, sysProp);
+        return sysProp;
     }
 
+    // Fall back to properties file
+    String value = properties.getProperty(key);
+    if (value == null) {
+        logger.warn("Property '{}' not found",
+            key);
+    }
+    return value;
+}
     public static String get(String key, String defaultValue) {
         return properties.getProperty(key, defaultValue);
     }
@@ -45,7 +55,8 @@ public class ConfigReader {
     }
 
     public static boolean getBoolean(String key) {
-        return Boolean.parseBoolean(get(key));
+        String value = get(key);
+        return Boolean.parseBoolean(value);
     }
 
     // Prevent instantiation
